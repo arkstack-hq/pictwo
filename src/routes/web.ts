@@ -1,5 +1,6 @@
 import ImageController from 'src/app/http/controllers/ImageController'
 import { Router } from '@arkstack/driver-express'
+import ToneflixController from 'src/app/http/controllers/ToneflixController'
 import { view } from '@arkstack/view'
 
 Router.get('/', async () => {
@@ -11,3 +12,4 @@ Router.get('/', async () => {
 })
 
 Router.get('/*args', [ImageController, 'show'])
+Router.get('/images/:segments', [ToneflixController, 'show'])

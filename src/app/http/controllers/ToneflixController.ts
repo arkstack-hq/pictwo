@@ -1,8 +1,9 @@
+import { ImageFilter, ImageFormat } from 'src/types/core'
+
 import { BaseController } from '@controllers/BaseController'
 import { HttpContext } from 'clear-router/types/express'
 import { Image } from 'src/Utils/Image'
 import { ImageServiceProvider } from 'src/app/services/ImageServiceProvider'
-import { MakeOptions } from 'src/types/core'
 
 /**
  * Lorem Toneflix–compatible controller.
@@ -20,7 +21,7 @@ import { MakeOptions } from 'src/types/core'
  *   ?seed=*            Any unknown param seeds deterministic randomisation
  *   ?format=webp|avif|png|jpeg
  */
-export default class TonelixController extends BaseController {
+export default class ToneflixController extends BaseController {
 
     async show ({ req, res }: HttpContext) {
         const service = await ImageServiceProvider.get()
@@ -30,9 +31,7 @@ export default class TonelixController extends BaseController {
             return res.status(404).json({ error: 'No images available' })
         }
 
-        // ── Resolve the image pool ──────────────────────────────────────────────
-
-        // Route params: express wildcard `/images/*segments` or named `:segment`
+        // `/images/*segments` or named `:segment`
         const raw: string[] = Array.isArray(req.params.segments)
             ? req.params.segments
             : req.params.segments
@@ -43,7 +42,7 @@ export default class TonelixController extends BaseController {
 
         const width = Math.max(1, Number(req.query.w ?? req.query.width ?? 800) || 800)
         const height = Math.max(1, Number(req.query.h ?? req.query.height ?? 600) || 600)
-        const format = TonelixController.resolveFormat(req.query.format as string ?? '')
+        const format = ToneflixController.resolveFormat(req.query.format as string ?? '')
 
         let pool: Image[] = all
         let label: string | undefined
@@ -65,7 +64,7 @@ export default class TonelixController extends BaseController {
         }
 
         if (!image) {
-            const seed = TonelixController.extractSeed(req.query as Record<string, string>)
+            const seed = ToneflixController.extractSeed(req.query as Record<string, string>)
             const idx = seed !== null
                 ? ImageServiceProvider.seedIndex(seed, pool.length)
                 : Math.floor(Math.random() * pool.length)
@@ -77,7 +76,7 @@ export default class TonelixController extends BaseController {
             label = textParam === 'true' ? ImageServiceProvider.fileId(image) : textParam
         }
 
-        const { filters, blurSigma } = TonelixController.resolveFilters(
+        const { filters, blurSigma } = ToneflixController.resolveFilters(
             req.query as Record<string, string>
         )
 
@@ -95,10 +94,10 @@ export default class TonelixController extends BaseController {
         res.end(rawBuf)
     }
 
-    private static resolveFormat (hint: string): MakeOptions['format'] {
+    private static resolveFormat (hint: string): ImageFormat {
         const ext = (hint ?? '').replace(/^\./, '').toLowerCase()
         if (ext === 'jpg' || ext === 'jpeg') return 'jpeg'
-        if (ext === 'webp' || ext === 'avif' || ext === 'png') return ext as MakeOptions['format']
+        if (ext === 'webp' || ext === 'avif' || ext === 'png') return ext
 
         return 'jpeg'
     }
@@ -115,10 +114,10 @@ export default class TonelixController extends BaseController {
      * @returns 
      */
     static resolveFilters (query: Record<string, string>): {
-        filters: MakeOptions['filters']
+        filters: ImageFilter[]
         blurSigma?: number
     } {
-        const filters: MakeOptions['filters'] = []
+        const filters: ImageFilter[] = []
         let blurSigma: number | undefined
 
         const raw = (query.filters ?? '').trim()
