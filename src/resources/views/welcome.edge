@@ -22,6 +22,9 @@
   <link
     href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap"
     rel="stylesheet" />
+  <link rel="icon" href="{{config('app.url')}}/icon.png" sizes="32x32" />
+  <link rel="icon" href="{{config('app.url')}}/icon.png" type="image/png" />
+  <link rel="apple-touch-icon" href="{{config('app.url')}}/icon.png" />
   <style>
     *,
     *::before,
@@ -75,15 +78,18 @@
     }
 
     .logo {
-      font-family: var(--serif);
-      font-size: 1.4rem;
-      letter-spacing: -0.02em;
-      color: var(--ink);
+      display: inline-flex;
+      align-items: center;
       text-decoration: none;
+      line-height: 1;
     }
 
-    .logo span {
-      color: var(--accent);
+    .logo img {
+      display: block;
+      height: 38px;
+      width: auto;
+      max-width: 190px;
+      object-fit: contain;
     }
 
     nav ul {
@@ -1058,6 +1064,11 @@
         padding: 0 1.5rem;
       }
 
+      .logo img {
+        height: 32px;
+        max-width: 160px;
+      }
+
       nav ul {
         display: none;
       }
@@ -1126,7 +1137,8 @@
 <body>
 
   <nav>
-    <a class="logo" href="#"><span>{{app_name}}</span></a>
+    <a class="logo" href="#" aria-label="{{app_name}} home"><img src="{{config('app.url')+'/logo.png'}}"
+        alt="{{app_name}} logo" /></a>
     <ul>
       <li><a href="#samples">Examples</a></li>
       <li><a href="#categories">Categories</a></li>
