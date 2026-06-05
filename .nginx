@@ -1,0 +1,19 @@
+# Proxies all requests to the local Express process.
+# automatically via:  include /var/www/server-config-path/.ngin*;
+
+location / {
+    proxy_pass         http://127.0.0.1:3000;
+    proxy_http_version 1.1;
+
+    # Required for keep-alive / WebSocket upgrade if you ever need it
+    proxy_set_header Upgrade    $http_upgrade;
+    proxy_set_header Connection 'upgrade';
+
+    # Forward real client info to Express (req.ip, req.hostname, etc.)
+    proxy_set_header Host              $host;
+    proxy_set_header X-Real-IP         $remote_addr;
+    proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+
+    proxy_cache_bypass $http_upgrade;
+}
