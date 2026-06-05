@@ -18,7 +18,7 @@ export default class ImageInfoController extends BaseController {
 
         RequestException.assertFound(img, 'Image not found', 404)
 
-        const baseUrl = `${req.protocol}://${req.get('host')}`
+        const baseUrl = `${config('app.url')}/api/v1`
 
         return new Resource(ImageServiceProvider.toListItem(img, baseUrl))
     }
@@ -28,7 +28,7 @@ export default class ImageInfoController extends BaseController {
         const all = service.getAllFiles()
         const idx = ImageServiceProvider.seedIndex(String(req.params.seed), all.length)
         const img = all[idx]
-        const baseUrl = `${req.protocol}://${req.get('host')}`
+        const baseUrl = `${config('app.url')}/api/v1`
 
         return new Resource(ImageServiceProvider.toListItem(img, baseUrl))
     }

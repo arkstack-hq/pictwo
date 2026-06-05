@@ -19,7 +19,7 @@ export default class ImageListController extends BaseController {
         const start = (page - 1) * limit
         const slice = all.slice(start, start + limit)
         const totalPages = Math.ceil(all.length / limit)
-        const baseUrl = `${req.protocol}://${req.get('host')}`
+        const baseUrl = `${config('app.url')}/api/v1`
 
         return new Resource(slice.map(img => ImageServiceProvider.toListItem(img, baseUrl)))
             .response()
