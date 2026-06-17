@@ -10,8 +10,11 @@
     "directory": "packages/pictwo-images"
   },
   "files": [
-    "images",
+    "img",
     "manifest.json",
     "README.md"
-  ]
+  ],
+  "scripts": {
+    "prepack": "pnpm -w pictwo:images:cdn"
+  }
 }

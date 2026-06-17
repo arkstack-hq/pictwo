@@ -16,17 +16,17 @@ const local = createPictwo({
 describe('jsDelivr provider URL generation', () => {
   it('returns the original asset when no size is requested', () => {
     expect(jsdelivr.image.fashion({ seed: 'pick' }))
-      .toBe('https://cdn.jsdelivr.net/npm/@pictwo/images@1.0.0/images/fashion/original/model-001.jpg')
+      .toBe('https://cdn.jsdelivr.net/npm/@pictwo/images@1.0.0/img/fashion/original/model-001.jpg')
   })
 
   it('returns a generated variant when a matching size exists', () => {
     expect(jsdelivr.image.fashion({ seed: 'pick', width: 400, height: 400 }))
-      .toBe('https://cdn.jsdelivr.net/npm/@pictwo/images@1.0.0/images/fashion/400x400/model-001.webp')
+      .toBe('https://cdn.jsdelivr.net/npm/@pictwo/images@1.0.0/img/fashion/400x400/model-001.webp')
   })
 
   it('resolves size presets to variant folders', () => {
     expect(jsdelivr.image.fashion({ seed: 'pick', size: 'card' }))
-      .toBe('https://cdn.jsdelivr.net/npm/@pictwo/images@1.0.0/images/fashion/400x400/model-001.webp')
+      .toBe('https://cdn.jsdelivr.net/npm/@pictwo/images@1.0.0/img/fashion/400x400/model-001.webp')
   })
 })
 
@@ -94,13 +94,13 @@ describe('jsDelivr nearest-dimension resolution', () => {
   it('snaps an unsupported size to the nearest available variant', () => {
     // fashion has 400x400 and 128x128; 300x300 is nearest to 400x400
     expect(jsdelivr.image.fashion({ seed: 'pick', width: 300, height: 300 }))
-      .toBe('https://cdn.jsdelivr.net/npm/@pictwo/images@1.0.0/images/fashion/400x400/model-001.webp')
+      .toBe('https://cdn.jsdelivr.net/npm/@pictwo/images@1.0.0/img/fashion/400x400/model-001.webp')
   })
 
   it('snaps to the smaller variant when it is closer', () => {
     // 130x130 is nearest to 128x128
     expect(jsdelivr.image.fashion({ seed: 'pick', width: 130, height: 130 }))
-      .toBe('https://cdn.jsdelivr.net/npm/@pictwo/images@1.0.0/images/fashion/128x128/model-001.webp')
+      .toBe('https://cdn.jsdelivr.net/npm/@pictwo/images@1.0.0/img/fashion/128x128/model-001.webp')
   })
 
   it('local provider keeps the original by default (no nearest snapping)', () => {

@@ -14,9 +14,5 @@ Router.get('/', async () => {
   })
 })
 
-// `/docs` (the SDK reference) is dispatched inside ImageController.show — the
-// image wildcard below out-ranks any sibling single-segment route in
-// clear-router's specificity ordering, so it must be handled by the front
-// controller rather than its own route.
 Router.get('/*args', [ImageController, 'show'])
 Router.get('/images/:segments', [ToneflixController, 'show'])

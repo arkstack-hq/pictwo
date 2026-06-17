@@ -1,10 +1,17 @@
 import { existsSync } from 'node:fs'
+import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 
-/** Repo-root-relative paths shared by the Pictwo image scripts. */
-export const ROOT = process.cwd()
+/**
+ * Repo root, derived from this file's location (scripts/pictwo/lib.ts) so the
+ * scripts work regardless of the current working directory — including when run
+ * from a package's `prepack` during `pnpm publish`.
+ */
+export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 export const IMAGES_PACKAGE_DIR = path.resolve(ROOT, 'packages/pictwo-images')
 export const IMAGES_DIR = path.join(IMAGES_PACKAGE_DIR, 'images')
+/** Optimized, CDN-sized distribution shipped to npm (gitignored, generated). */
+export const IMG_DIR = path.join(IMAGES_PACKAGE_DIR, 'img')
 export const MANIFEST_PATH = path.join(IMAGES_PACKAGE_DIR, 'manifest.json')
 export const STORAGE_IMAGES_DIR = path.resolve(ROOT, 'storage/app/public/images')
 

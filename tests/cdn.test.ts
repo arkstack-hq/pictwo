@@ -22,7 +22,7 @@ const pictwo = createPictwo({
     manifest,
 })
 
-const BASE = 'https://cdn.jsdelivr.net/npm/@pictwo/images@1.0.0/images'
+const BASE = 'https://cdn.jsdelivr.net/npm/@pictwo/images@1.0.0/img'
 
 const VARIANT_400 = new RegExp(`^${BASE}/fashion/400x400/model-00\\d\\.webp$`)
 

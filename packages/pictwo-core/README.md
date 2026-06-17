@@ -123,10 +123,10 @@ const pictwo = createPictwo({
 });
 
 pictwo.image.fashion({ seed: 'home-card' });
-// https://cdn.jsdelivr.net/npm/@pictwo/images@1.0.0/images/fashion/original/model-001.jpg
+// https://cdn.jsdelivr.net/npm/@pictwo/images@1.0.0/img/fashion/original/model-001.jpg
 
 pictwo.image.fashion({ seed: 'home-card', width: 400, height: 400 });
-// https://cdn.jsdelivr.net/npm/@pictwo/images@1.0.0/images/fashion/400x400/model-001.webp
+// https://cdn.jsdelivr.net/npm/@pictwo/images@1.0.0/img/fashion/400x400/model-001.webp
 ```
 
 ### Local

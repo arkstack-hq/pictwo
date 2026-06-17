@@ -6,6 +6,14 @@ export const DEFAULT_PICTWO_HOST = 'https://pictwo.toneflix.net'
 /** jsDelivr CDN base for npm package assets. */
 export const DEFAULT_JSDELIVR_BASE = 'https://cdn.jsdelivr.net/npm'
 
+/**
+ * Directory (inside the published `@pictwo/images` package) that the jsDelivr
+ * provider serves from. This is the optimized, CDN-sized distribution — the
+ * full-resolution `images/` source is excluded from the npm package to stay
+ * under jsDelivr's repo size limit.
+ */
+export const DEFAULT_ASSET_DIR = 'img'
+
 /** Default local/static base path. */
 export const DEFAULT_LOCAL_BASE = '/pictwo/images'
 

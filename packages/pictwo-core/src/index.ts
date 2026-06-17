@@ -8,6 +8,7 @@ export {
   DEFAULT_JSDELIVR_BASE,
   DEFAULT_LOCAL_BASE,
   DEFAULT_DIMENSIONS,
+  DEFAULT_ASSET_DIR,
 } from './presets'
 
 export { seedIndex } from './internal'

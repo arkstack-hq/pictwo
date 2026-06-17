@@ -23,7 +23,7 @@ function makeProvider (source: PictwoSource): Provider {
     case 'hosted':
       return new HostedProvider(source.baseUrl ?? DEFAULT_PICTWO_HOST)
     case 'jsdelivr':
-      return new JsDelivrProvider(source.packageName, source.version, source.baseUrl)
+      return new JsDelivrProvider(source.packageName, source.version, source.baseUrl, source.assetDir)
     case 'local':
       return new LocalProvider(source.baseUrl)
     default:

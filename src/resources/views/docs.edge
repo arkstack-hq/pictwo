@@ -11,6 +11,13 @@
     href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap"
     rel="stylesheet" />
   <link rel="icon" href="{{ config('app.url') + '/icon.png' }}" type="image/png" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+
+  <!-- and it's easy to individually load additional languages -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/go.min.js"></script>
+
+  <script>hljs.highlightAll();</script>
   <style>
     *,
     *::before,
@@ -314,7 +321,8 @@ pnpm add @pictwo/images          # portable image assets + manifest</code></pre>
       <section id="core">
         <h2>@pictwo/core</h2>
         <p>
-          <code>pictwo</code> is a ready-made instance bound to the live hosted API. Use <code>createPictwo(config)</code>
+          <code>pictwo</code> is a ready-made instance bound to the live hosted API. Use
+          <code>createPictwo(config)</code>
           for a custom host or a different provider.
         </p>
         <pre><code>import { pictwo } from '@pictwo/core'
@@ -364,12 +372,30 @@ pictwo.image.avatar / fashion / fabric / product / design / nature / …</code><
             </tr>
           </thead>
           <tbody>
-            <tr><td><code>avatar</code></td><td>128×128</td></tr>
-            <tr><td><code>thumb</code></td><td>256×256</td></tr>
-            <tr><td><code>card</code></td><td>400×400</td></tr>
-            <tr><td><code>portrait</code></td><td>600×800</td></tr>
-            <tr><td><code>cover</code></td><td>1200×600</td></tr>
-            <tr><td><code>og</code></td><td>1200×630</td></tr>
+            <tr>
+              <td><code>avatar</code></td>
+              <td>128×128</td>
+            </tr>
+            <tr>
+              <td><code>thumb</code></td>
+              <td>256×256</td>
+            </tr>
+            <tr>
+              <td><code>card</code></td>
+              <td>400×400</td>
+            </tr>
+            <tr>
+              <td><code>portrait</code></td>
+              <td>600×800</td>
+            </tr>
+            <tr>
+              <td><code>cover</code></td>
+              <td>1200×600</td>
+            </tr>
+            <tr>
+              <td><code>og</code></td>
+              <td>1200×630</td>
+            </tr>
           </tbody>
         </table>
         <pre><code>pictwo.image.url({ size: 'og' })                       // → /1200/630
@@ -383,7 +409,8 @@ pictwo.image.url({ width: 800, height: 600, filters: ['greyscale', 'blur:4'] })
         <p><span class="pill">hosted</span> The live API with runtime Sharp processing (default).</p>
         <pre><code>createPictwo({ source: { driver: 'hosted', baseUrl: '{{ config('app.url') }}' } })</code></pre>
 
-        <p><span class="pill">jsdelivr</span> Static assets from the published <code>@pictwo/images</code> package. Requires a manifest.</p>
+        <p><span class="pill">jsdelivr</span> Static assets from the published <code>@pictwo/images</code> package.
+          Requires a manifest.</p>
         <pre><code>import manifest from '@pictwo/images/manifest.json'
 
 const pictwo = createPictwo({
@@ -392,10 +419,10 @@ const pictwo = createPictwo({
 })
 
 pictwo.image.fashion({ seed: 'home-card' })
-// https://cdn.jsdelivr.net/npm/@pictwo/images@1.0.0/images/fashion/original/model-001.jpg
+// https://cdn.jsdelivr.net/npm/@pictwo/images@1.0.0/img/fashion/original/model-001.jpg
 
 pictwo.image.fashion({ seed: 'home-card', size: 'card' })
-// https://cdn.jsdelivr.net/npm/@pictwo/images@1.0.0/images/fashion/400x400/model-001.webp</code></pre>
+// https://cdn.jsdelivr.net/npm/@pictwo/images@1.0.0/img/fashion/400x400/model-001.webp</code></pre>
 
         <p><span class="pill">local</span> Static paths served from your own app.</p>
         <pre><code>createPictwo({ source: { driver: 'local', baseUrl: '/pictwo/images' }, manifest })
@@ -415,12 +442,24 @@ pictwo.image.fashion({ seed: 'home-card', size: 'card' })
 local.image.fashion({ width: 300, height: 300, fallback: 'nearest' })</code></pre>
         <table>
           <thead>
-            <tr><th>fallback</th><th>Behaviour when the exact variant is missing</th></tr>
+            <tr>
+              <th>fallback</th>
+              <th>Behaviour when the exact variant is missing</th>
+            </tr>
           </thead>
           <tbody>
-            <tr><td><code>nearest</code></td><td>snap to the closest available variant (jsdelivr default)</td></tr>
-            <tr><td><code>original</code></td><td>serve the full-size original (local default)</td></tr>
-            <tr><td><code>throw</code></td><td>raise a clear error</td></tr>
+            <tr>
+              <td><code>nearest</code></td>
+              <td>snap to the closest available variant (jsdelivr default)</td>
+            </tr>
+            <tr>
+              <td><code>original</code></td>
+              <td>serve the full-size original (local default)</td>
+            </tr>
+            <tr>
+              <td><code>throw</code></td>
+              <td>raise a clear error</td>
+            </tr>
           </tbody>
         </table>
       </section>
@@ -467,7 +506,7 @@ pnpm pictwo:images:clean       # remove generated variant folders</code></pre>
           <strong>302-redirects</strong> straight to it — so it works as a drop-in <code>&lt;img&gt;</code> source.
         </p>
         <pre><code>GET {{ config('app.url') }}/category/fashion/400/400?cdn
-→ 302 Location: https://cdn.jsdelivr.net/npm/@pictwo/images@x/images/fashion/400x400/…webp
+→ 302 Location: https://cdn.jsdelivr.net/npm/@pictwo/images@x/img/fashion/400x400/…webp
 
 GET {{ config('app.url') }}/id/20001/800/600?cdn
 GET {{ config('app.url') }}/seed/hero/1200/600?cdn

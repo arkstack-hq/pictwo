@@ -52,7 +52,7 @@ export type SizePresets = Record<string, SizeDimensions>
 /** Source configuration for each supported provider. */
 export type PictwoSource =
   | { driver: 'hosted'; baseUrl?: string }
-  | { driver: 'jsdelivr'; packageName: string; version: string; baseUrl?: string }
+  | { driver: 'jsdelivr'; packageName: string; version: string; baseUrl?: string; assetDir?: string }
   | { driver: 'local'; baseUrl?: string }
 
 export interface PictwoConfig {

@@ -20,6 +20,7 @@
     "pictwo:images:manifest": "tsx scripts/pictwo/build-image-manifest.ts",
     "pictwo:images:sync": "tsx scripts/pictwo/sync-images.ts",
     "pictwo:images:build": "pnpm pictwo:images:generate && pnpm pictwo:images:manifest",
+    "pictwo:images:cdn": "tsx scripts/pictwo/build-cdn-images.ts",
     "pictwo:version": "tsx scripts/pictwo/set-version.ts"
   },
   "dependencies": {
