@@ -93,4 +93,11 @@ export class ImageService {
     getCategory (category: string): Image[] {
         return [...(this.categories.get(category) ?? [])]
     }
+
+    /**
+     * Returns names of all discovered categories.
+     */
+    getCategoryNames (): string[] {
+        return Array.from(this.categories.keys())
+    }
 }

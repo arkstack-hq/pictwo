@@ -22,6 +22,9 @@
   <link
     href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap"
     rel="stylesheet" />
+  <link rel="icon" href="{{config('app.url')}}/icon.png" sizes="32x32" />
+  <link rel="icon" href="{{config('app.url')}}/icon.png" type="image/png" />
+  <link rel="apple-touch-icon" href="{{config('app.url')}}/icon.png" />
   <style>
     *,
     *::before,
@@ -75,15 +78,18 @@
     }
 
     .logo {
-      font-family: var(--serif);
-      font-size: 1.4rem;
-      letter-spacing: -0.02em;
-      color: var(--ink);
+      display: inline-flex;
+      align-items: center;
       text-decoration: none;
+      line-height: 1;
     }
 
-    .logo span {
-      color: var(--accent);
+    .logo img {
+      display: block;
+      height: 38px;
+      width: auto;
+      max-width: 190px;
+      object-fit: contain;
     }
 
     nav ul {
@@ -1058,6 +1064,11 @@
         padding: 0 1.5rem;
       }
 
+      .logo img {
+        height: 32px;
+        max-width: 160px;
+      }
+
       nav ul {
         display: none;
       }
@@ -1126,7 +1137,8 @@
 <body>
 
   <nav>
-    <a class="logo" href="#"><span>{{app_name}}</span></a>
+    <a class="logo" href="#" aria-label="{{app_name}} home"><img src="{{config('app.url')+'/logo.png'}}"
+        alt="{{app_name}} logo" /></a>
     <ul>
       <li><a href="#samples">Examples</a></li>
       <li><a href="#categories">Categories</a></li>
@@ -1134,6 +1146,7 @@
       <li><a href="#api">API</a></li>
       <li><a href="#filters">Filters</a></li>
       <li><a href="#playground">Playground</a></li>
+      <li><a href="{{ config('app.url') + '/docs' }}">SDK</a></li>
       <li><a class="nav-cta" href="#playground">Try it →</a></li>
     </ul>
   </nav>
@@ -1147,7 +1160,7 @@
       </p>
       <div class="hero-actions">
         <a class="btn-primary" href="#playground">Explore the API</a>
-        <a class="btn-ghost" href="https://github.com/arkstack-tmp/pictwo" target="_blank">
+        <a class="btn-ghost" href="https://github.com/arkstack-hq/pictwo" target="_blank">
           <svg viewBox="0 0 16 16" fill="currentColor">
             <path
               d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z" />
@@ -1267,86 +1280,16 @@
 
     <div class="categories-grid" id="categories-grid">
 
-      <a class="cat-card" href="#playground" data-cat="african-fashion" onclick="prefillCategory('african-fashion')">
-        <img alt="african-fashion" />
+      @each(category in categories)
+      <a class="cat-card" href="#playground" data-cat="{{ category }}" onclick="prefillCategory('{{ category }}')">
+        <img alt="{{ category }}" />
         <div class="cat-overlay"></div>
         <div class="cat-info">
-          <div class="cat-name">African Fashion</div>
-          <div class="cat-url">/images/african-fashion</div>
+          <div class="cat-name">{{ category }}</div>
+          <div class="cat-url">/images/{{ category }}</div>
         </div>
       </a>
-
-      <a class="cat-card" href="#playground" data-cat="album" onclick="prefillCategory('album')">
-        <img alt="album" />
-        <div class="cat-overlay"></div>
-        <div class="cat-info">
-          <div class="cat-name">Album</div>
-          <div class="cat-url">/images/album</div>
-        </div>
-      </a>
-
-      <a class="cat-card" href="#playground" data-cat="avatar" onclick="prefillCategory('avatar')">
-        <img alt="avatar" />
-        <div class="cat-overlay"></div>
-        <div class="cat-info">
-          <div class="cat-name">Avatar</div>
-          <div class="cat-url">/images/avatar</div>
-        </div>
-      </a>
-
-      <a class="cat-card" href="#playground" data-cat="event" onclick="prefillCategory('event')">
-        <img alt="event" />
-        <div class="cat-overlay"></div>
-        <div class="cat-info">
-          <div class="cat-name">Event</div>
-          <div class="cat-url">/images/event</div>
-        </div>
-      </a>
-
-      <a class="cat-card" href="#playground" data-cat="fashion" onclick="prefillCategory('fashion')">
-        <img alt="fashion" />
-        <div class="cat-overlay"></div>
-        <div class="cat-info">
-          <div class="cat-name">Fashion</div>
-          <div class="cat-url">/images/fashion</div>
-        </div>
-      </a>
-
-      <a class="cat-card" href="#playground" data-cat="nature" onclick="prefillCategory('nature')">
-        <img alt="nature" />
-        <div class="cat-overlay"></div>
-        <div class="cat-info">
-          <div class="cat-name">Nature</div>
-          <div class="cat-url">/images/nature</div>
-        </div>
-      </a>
-
-      <a class="cat-card" href="#playground" data-cat="people" onclick="prefillCategory('people')">
-        <img alt="people" />
-        <div class="cat-overlay"></div>
-        <div class="cat-info">
-          <div class="cat-name">People</div>
-          <div class="cat-url">/images/people</div>
-        </div>
-      </a>
-
-      <a class="cat-card" href="#playground" data-cat="poster" onclick="prefillCategory('poster')">
-        <img alt="poster" />
-        <div class="cat-overlay"></div>
-        <div class="cat-info">
-          <div class="cat-name">Poster</div>
-          <div class="cat-url">/images/poster</div>
-        </div>
-      </a>
-
-      <a class="cat-card" href="#playground" data-cat="technology" onclick="prefillCategory('technology')">
-        <img alt="technology" />
-        <div class="cat-overlay"></div>
-        <div class="cat-info">
-          <div class="cat-name">Technology</div>
-          <div class="cat-url">/images/technology</div>
-        </div>
-      </a>
+      @end
 
     </div>
   </section>
@@ -1659,9 +1602,17 @@
           <label>Width<input type="number" id="pg-w" value="800" min="1" max="4000" /></label>
           <label>Height<input type="number" id="pg-h" value="600" min="1" max="4000" /></label>
         </div>
+        <label id="pg-cat-label-" style="display:none">
+          Category
+          <input type="text" id="pg-cat-" value="nature" placeholder="nature, avatar, technology…" />
+        </label>
         <label id="pg-cat-label" style="display:none">
           Category
-          <input type="text" id="pg-cat" value="nature" placeholder="nature, avatar, technology…" />
+          <select id="pg-cat">
+            @each(category in categories)
+            <option value="{{category}}">{{category}}</option>
+            @end
+          </select>
         </label>
         <label id="pg-id-label" style="display:none">
           Image ID

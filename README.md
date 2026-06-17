@@ -4,8 +4,6 @@ A self-hosted image placeholder service with two compatible URL styles, category
 
 Drop-in replacement for [Lorem Picsum](https://picsum.photos) with additional [Lorem Toneflix](https://lorem.toneflix.com.ng) API compatibility.
 
----
-
 ## Table of Contents
 
 - [Requirements](#requirements)
@@ -21,10 +19,14 @@ Drop-in replacement for [Lorem Picsum](https://picsum.photos) with additional [L
 - [Filters](#filters)
 - [Seeding](#seeding)
 - [Architecture](#architecture)
+- [Pictwo Packages](#pictwo-packages)
 - [Nginx](#nginx)
+- [Contributing](#contributing)
+  - [Getting started](#getting-started)
+  - [Adding images](#adding-images)
+  - [Adding a new category](#adding-a-new-category)
+  - [Code changes](#code-changes)
 - [License](#license)
-
----
 
 ## Requirements
 
@@ -50,8 +52,6 @@ pm2 start dist/server.js --name pictwo
 pm2 save && pm2 startup
 ```
 
----
-
 ## Image Library
 
 Images are served from `{public_root}/images/`. The directory structure determines the available categories — every subdirectory becomes a category automatically. Files placed directly in `images/` are uncategorised and excluded from category routes.
@@ -75,8 +75,6 @@ storage/
 Supported input formats: `.jpg` `.jpeg` `.png` `.webp` `.avif` `.gif` `.tiff` `.bmp` `.heic` `.heif`
 
 The service scans the directory once at startup and holds the catalogue in memory. Restart the process after adding or removing images.
-
----
 
 ## URL Reference
 
@@ -109,8 +107,6 @@ https://pictwo.toneflix.net/seed/my-project/600/400
 https://pictwo.toneflix.net/category/nature/800/600
 ```
 
----
-
 ### Lorem Toneflix-compatible routes
 
 These mirror the [Lorem Toneflix](https://lorem.toneflix.com.ng) API so existing integrations work without changes.
@@ -139,8 +135,6 @@ https://pictwo.toneflix.net/images/nature?w=600&h=400&filters=greyscale
 https://pictwo.toneflix.net/images/image/20001?w=400&h=300&text=true
 ```
 
----
-
 ### Shared query parameters
 
 These work on every route regardless of style.
@@ -157,15 +151,11 @@ These work on every route regardless of style.
 | `?random=N`        | Cache-busting no-op (ignored by the server).                                 |
 | `?format=webp`     | Output format override. Also accepts `jpeg`, `png`, `avif`.                  |
 
----
-
 ## API Routes
 
 The `/api/v1` prefix exposes a JSON API for listing and inspecting images in the catalogue. This is useful for building tooling on top of the service, populating a UI with real image metadata, or discovering valid IDs to use with the image routes.
 
 All responses are JSON. No authentication is required.
-
----
 
 ### List images
 
@@ -217,8 +207,6 @@ GET /api/v1/list?page=2&limit=100
 | `category`     | string | Category name derived from the parent directory.                |
 | `download_url` | string | Ready-to-use image URL at 800×600. Swap dimensions as needed.   |
 
----
-
 ### Image info
 
 Returns metadata for a single image by ID or by seed. Useful for resolving what image a seed maps to before embedding it.
@@ -242,8 +230,6 @@ GET /api/v1/seed/:seed/info
 ```
 
 The seed endpoint resolves the seed to its corresponding image and returns that image's metadata. The resolved ID is stable — the same seed will always resolve to the same object as long as the image library does not change.
-
----
 
 ## Filters
 
@@ -275,8 +261,6 @@ Filters are applied in the order they appear in the string. You can stack as man
 /images/nature?w=800&h=600&filters=flip,normalize
 ```
 
----
-
 ## Seeding
 
 Seeding makes the selection deterministic — the same seed always picks the same image from the pool, which is useful for consistent UI mockups and tests.
@@ -299,8 +283,6 @@ Any query parameter that is not a reserved keyword is treated as a seed. Reserve
 ```
 
 Seeds are hashed using a fast integer hash (FNV-inspired `Math.imul`) and mapped to an index within the available pool, so the result is stable across restarts as long as the image library doesn't change.
-
----
 
 ## Architecture
 
@@ -328,7 +310,40 @@ src/
 
 **Controllers** are thin. They parse the request (path params, query string), call the service and `Image` class, set response headers, and flush the buffer. No image processing logic lives in a controller.
 
----
+## Pictwo Packages
+
+This repository is a [PNPM workspace](https://pnpm.io/workspaces). The hosted API lives at
+the repo root; reusable Pictwo packages live under [`packages/`](packages/):
+
+| Package                                    | Description                                                         |
+| ------------------------------------------ | ------------------------------------------------------------------- |
+| [`@pictwo/core`](packages/pictwo-core)     | Typed URL generation for the hosted, jsDelivr, and local providers. |
+| [`@pictwo/faker`](packages/pictwo-faker)   | A Faker.js `image` module backed by Pictwo.                         |
+| [`@pictwo/images`](packages/pictwo-images) | Portable image asset package (originals, variants, manifest).       |
+
+```ts
+import { pictwo } from '@pictwo/core';
+
+pictwo.image.fashion({ width: 800, height: 600, seed: 'home-card' });
+// https://pictwo.toneflix.net/category/fashion/800/600?seed=home-card
+```
+
+Workspace scripts (run from the repo root):
+
+```bash
+pnpm pictwo:build          # build @pictwo/core + @pictwo/faker
+pnpm pictwo:test           # test the core + faker packages
+pnpm pictwo:typecheck      # typecheck the core + faker packages
+
+pnpm pictwo:images:generate   # generate scaled variants (Sharp)
+pnpm pictwo:images:manifest   # rebuild packages/pictwo-images/manifest.json
+pnpm pictwo:images:build      # generate + manifest
+pnpm pictwo:images:sync       # copy package originals → storage/app/public/images
+pnpm pictwo:images:clean      # remove generated variant folders
+```
+
+The core package only generates URLs and consumes manifests — the hosted API keeps doing
+runtime Sharp processing from `storage/app/public/images`. See each package README for details.
 
 ## Nginx
 
@@ -352,7 +367,91 @@ location / {
 
 Change `3000` to match your `APP_PORT`. Add `app.set('trust proxy', 1)` in your Express bootstrap so `req.ip` and `req.protocol` reflect the real client values through the proxy.
 
----
+## Contributing
+
+Contributions are welcome — whether that's adding images to an existing category, creating a new one, fixing a bug, or improving the documentation. Please read the relevant section below before opening a pull request.
+
+### Getting started
+
+1. Fork the repository and clone your fork.
+2. Create a branch from `main`: `git checkout -b your-branch-name`
+3. Make your changes, then open a pull request against `main` with a clear description of what you changed and why.
+   > For non-trivial code changes, open an issue first so the approach can be discussed before you invest time building it.
+
+### Adding images
+
+All images contributed to pictwo must meet the following requirements. Pull requests that include non-compliant images will not be merged.
+
+#### Licence
+
+Every image must be licensed under one of:
+
+- [Creative Commons Zero (CC0)](https://creativecommons.org/publicdomain/zero/1.0/) — no attribution required
+- [Creative Commons Attribution (CC BY)](https://creativecommons.org/licenses/by/4.0/) — attribution required in the PR description
+- [Unsplash Licence](https://unsplash.com/license) — sourced directly from [unsplash.com](https://unsplash.com)
+  Stock photos, AI-generated images, screenshots, and images with unclear provenance are not accepted. If you are unsure about a licence, do not include the image.
+
+#### File size
+
+Each file must be **125 KB or smaller**. Compress images before submitting — [Squoosh](https://squoosh.app) or `sharp` itself work well for this. Files exceeding the limit will be rejected regardless of content.
+
+#### Format and naming
+
+- Accepted formats: `.jpg`, `.jpeg`, `.png`, `.webp`, `.avif`
+- Filenames are **numeric only**, matching the assigned range for the category the image belongs to (see table below). Do not use descriptive names, hyphens, or any non-numeric characters in the filename: `10042.jpg`, `30017.webp`.
+- Use the next available number in the range — do not skip numbers or reuse existing IDs.
+
+#### Category ID ranges
+
+| Category          | Range         |
+| ----------------- | ------------- |
+| `album`           | 00001 – 09999 |
+| `avatar`          | 10001 – 19999 |
+| `event`           | 20001 – 29999 |
+| `nature`          | 30001 – 39999 |
+| `poster`          | 40001 – 49999 |
+| `technology`      | 50001 – 59999 |
+| `african-fashion` | 60001 – 69999 |
+| `fashion`         | 70001 – 79999 |
+| `profile`         | 80001 – 80999 |
+| `people`          | 90001 – 99999 |
+
+Check existing files in the category directory to find the next available number before adding yours.
+
+#### Where to place files
+
+Drop images into the appropriate subdirectory under `storage/app/public/images/`:
+
+```
+storage/app/public/images/nature/30051.jpg
+storage/app/public/images/avatar/10063.webp
+```
+
+If your image does not fit any existing category, see [Adding a new category](#adding-a-new-category).
+
+### Adding a new category
+
+New categories are welcome, but they must be substantial enough to be useful. The requirements are:
+
+- **Minimum 50 images** must be included in the same pull request as the new category directory. PRs that create a category with fewer images will not be merged.
+- All images must comply with the licence and file size rules above.
+- The category name must be a single lowercase word or hyphenated phrase that describes the content clearly: `street-food`, `architecture`, `sports`. Avoid vague names like `misc` or `other`.
+
+**Example**
+
+```
+storage/app/public/images/architecture/ ← new directory
+    100001.jpg
+    100002.webp
+    ...                                 ← at least 50 files total
+```
+
+### Code changes
+
+- The project is written in TypeScript. All new code must be typed — avoid `any`.
+- Controllers must stay thin. Image processing logic belongs in `Image`, catalogue and parsing logic belongs in `ImageService`. See [Architecture](#architecture) for the full breakdown.
+- Run `pnpm build` before submitting to confirm there are no type errors.
+- If you add a new route or change an existing one, update the README and the landing page (`index.html`) to reflect it in the same PR.
 
 ## License
 

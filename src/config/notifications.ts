@@ -1,8 +1,7 @@
 import { Arkstack } from '@arkstack/contract'
-import { NotificationConfig } from '@arkstack/notifications'
 import { join } from 'node:path'
 
-export default (): NotificationConfig => {
+export default () => {
     return {
         /**
          * Default Notification Driver

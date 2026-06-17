@@ -5,7 +5,6 @@ import { MiddlewareConfig } from '@arkstack/driver-express/types'
 import cors from 'cors'
 import corsConfig from './cors'
 import express from 'express'
-import { useExpressUploadContext } from '@kanun-hq/plugin-file'
 
 export default (): MiddlewareConfig => {
   const cConf = corsConfig()
@@ -30,7 +29,6 @@ export default (): MiddlewareConfig => {
         Resource.setCtx({ req, res })
         GenericResource.setCtx({ req, res })
         ResourceCollection.setCtx({ res, req })
-        useExpressUploadContext(req as never)
         next()
       }
     ],

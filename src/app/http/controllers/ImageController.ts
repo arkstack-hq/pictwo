@@ -1,11 +1,14 @@
 import { ImageFilter, ImageFormat } from 'src/types/core'
 
 import { BaseController } from '@controllers/BaseController'
+import { CdnService } from 'src/app/services/CdnService'
 import { HttpContext } from 'clear-router/types/express'
 import { Image } from 'src/Utils/Image'
 import { ImageServiceProvider } from 'src/app/services/ImageServiceProvider'
 import { RequestException } from '@arkstack/common'
 import ToneflixController from './ToneflixController'
+import { resolveCdnUrl } from 'src/app/services/cdnResolver'
+import { view } from '@arkstack/view'
 
 /**
  * GET /{width}
@@ -30,7 +33,17 @@ export default class ImageController extends BaseController {
       ? req.params.args.join('/')
       : req.params.args ?? ''
     ).replace(/^\//, '')
-    console.log(env('APP_URL', 'http://localhost'))
+
+    // Front-controller pages that the image wildcard would otherwise shadow.
+    if (args === 'docs') {
+      return await view('docs', { title: 'SDK Reference', app_name: config('app.name') })
+    }
+
+    // `?cdn` skips runtime processing and resolves a jsDelivr CDN URL instead.
+    if ('cdn' in req.query) {
+      return ImageController.serveCdn(args, req.query as Record<string, string>, res)
+    }
+
     const byCategory = args.match(/^category\/([^/]+)\/(\d+)(?:\/(\d+))?(?:\.\w+)?$/)
     const service = await ImageServiceProvider.get()
 
@@ -64,6 +77,36 @@ export default class ImageController extends BaseController {
     res.setHeader('Picsum-ID', ImageServiceProvider.fileId(image))
     Object.entries(headers).forEach(([k, v]) => res.setHeader(k, v))
     res.end(buffer)
+  }
+
+  /**
+   * Resolve a jsDelivr CDN URL for the requested route and 302-redirect to it,
+   * skipping Sharp entirely. Requested dimensions snap to the nearest
+   * pre-generated variant. Honours the same route shapes as {@link show}.
+   * 
+   * @param args 
+   * @param query 
+   * @param res 
+   * @returns 
+   */
+  private static serveCdn (
+    args: string,
+    query: Record<string, string>,
+    res: HttpContext['res'],
+  ) {
+    if (!CdnService.enabled()) {
+      return res.status(404).json({ error: 'CDN delivery is disabled' })
+    }
+
+    try {
+      const url = resolveCdnUrl(CdnService.get(), args, query)
+
+      return res.redirect(302, url)
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Image not found'
+
+      return res.status(404).json({ error: message })
+    }
   }
 
   private static resolveFormat (args: string): ImageFormat {

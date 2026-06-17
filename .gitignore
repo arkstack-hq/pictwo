@@ -9,9 +9,14 @@ dist
 /storage/*.key
 /storage/framework
 
+# Generated CDN image distribution: built from packages/pictwo-images/images,
+# published to npm (and served by jsDelivr); never committed.
+/packages/pictwo-images/img
+
 # ArkStack specific files and directories
 .arkstack
 .arkormx
 .DS_Store
 .idea
 .vscode
+.claude
