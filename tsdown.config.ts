@@ -16,6 +16,7 @@ export default defineConfig([
     platform: 'node',
     outDir: dist,
     format: 'esm',
+    exports: true,
     sourcemap: env !== 'dev',
     logLevel: 'silent',
     deps: {
