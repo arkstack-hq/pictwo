@@ -1,8 +1,10 @@
 # @pictwo/images
 
-[![@pictwo/core](https://img.shields.io/npm/dt/@pictwo/core.svg)](https://www.npmjs.com/package/@pictwo/core)
-[![@pictwo/faker](https://img.shields.io/npm/dt/@pictwo/faker.svg)](https://www.npmjs.com/package/@pictwo/faker)
-[![@pictwo/images](https://img.shields.io/npm/dt/@pictwo/images.svg)](https://www.npmjs.com/package/@pictwo/images)
+[![@pictwo/core](https://img.shields.io/npm/dt/@pictwo/core.svg?label=@pictwo/core)](https://www.npmjs.com/package/@pictwo/core)
+[![@pictwo/faker](https://img.shields.io/npm/dt/@pictwo/faker.svg?label=@pictwo/faker)](https://www.npmjs.com/package/@pictwo/faker)
+[![@pictwo/images](https://img.shields.io/npm/dt/@pictwo/images.svg?label=@pictwo/images)](https://www.npmjs.com/package/@pictwo/images)
+[![Release](https://github.com/arkstack-hq/pictwo/actions/workflows/release.yml/badge.svg)](https://github.com/arkstack-hq/pictwo/actions/workflows/release.yml)
+[![Run Tests](https://github.com/arkstack-hq/pictwo/actions/workflows/tests.yml/badge.svg)](https://github.com/arkstack-hq/pictwo/actions/workflows/tests.yml)
 
 The portable **Pictwo** image asset package: category originals, generated variants, and
 a deterministic `manifest.json`. Consumed by [`@pictwo/core`](../pictwo-core) via the
