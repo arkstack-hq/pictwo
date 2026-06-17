@@ -1,6 +1,6 @@
 {
   "name": "@pictwo/images",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Portable Pictwo image asset package (originals + generated variants + manifest).",
   "license": "MIT",
   "homepage": "https://pictwo.toneflix.net",
