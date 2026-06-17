@@ -167,7 +167,7 @@ export default class ToneflixController extends BaseController {
     static extractSeed (query: Record<string, string>): string | null {
         const RESERVED = new Set([
             'w', 'h', 'width', 'height', 'filters', 'text',
-            'grayscale', 'greyscale', 'blur', 'random', 'format',
+            'grayscale', 'greyscale', 'blur', 'random', 'format', 'cdn',
         ])
         const keys = Object.keys(query).filter(k => !RESERVED.has(k))
         if (!keys.length) return null

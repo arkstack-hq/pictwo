@@ -20,6 +20,6 @@ describe('starter template', () => {
     })
 
     it('can test a route', async () => {
-        await request(app).get('/api').contains('{"status":"OK"}')
+        await request(app).get('/api/test').contains('{"status":"OK"}')
     })
 })

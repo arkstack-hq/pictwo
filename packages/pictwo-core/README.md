@@ -1,7 +1,6 @@
 # @pictwo/core
 
-URL-generation core for **Pictwo** — the ArkStack hosted placeholder image API at
-[pictwo.toneflix.net](https://pictwo.toneflix.net). It builds image URLs for three
+URL-generation core for **Pictwo** — The open-source drop-in placeholder images service built on Arkstack with a hosted version currently available from [pictwo.toneflix.net](https://pictwo.toneflix.net). It builds image URLs for three
 providers from one small, typed API.
 
 ```bash

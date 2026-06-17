@@ -2,7 +2,7 @@ import ImageInfoController from 'src/app/http/controllers/ImageInfoController'
 import ImageListController from 'src/app/http/controllers/ImageListController'
 import { Router } from '@arkstack/driver-express'
 
-Router.get('/', () => {
+Router.get('/test', () => {
   return { status: 'OK' }
 })
 

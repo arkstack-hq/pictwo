@@ -10,6 +10,9 @@ import { trimTrailingSlash } from '../internal'
  */
 export class JsDelivrProvider extends StaticProvider {
   readonly driver = 'jsdelivr'
+  // jsDelivr only serves pre-generated variants, so snap unknown sizes to the
+  // nearest available one rather than serving a full-size original.
+  protected readonly defaultFallback = 'nearest' as const
   private readonly base: string
 
   constructor(

@@ -18,6 +18,9 @@ interface Selected {
 export abstract class StaticProvider implements Provider {
   abstract readonly driver: string
 
+  /** Fallback used when an exact variant is missing and none is requested. */
+  protected readonly defaultFallback: 'original' | 'nearest' | 'throw' = 'original'
+
   /** Compose a URL for `images/{category}/{folder}/{file}`. */
   protected abstract assetUrl (category: string, folder: string, file: string): string
 
@@ -35,27 +38,61 @@ export abstract class StaticProvider implements Provider {
     const dims = explicitDimensions(req, ctx.presets)
 
     if (dims) {
-      const folder = `${dims.width}x${dims.height}`
       const format = req.format ?? 'webp'
       const variantFile = `${base}.${format}`
-      const variants = manifest.categories[selected.category]?.variants?.[folder]
+      const variants = manifest.categories[selected.category]?.variants ?? {}
+      const exactFolder = `${dims.width}x${dims.height}`
 
-      if (variants && variants.includes(variantFile)) {
-        return this.assetUrl(selected.category, folder, variantFile)
+      // 1. Exact variant match.
+      if (variants[exactFolder]?.includes(variantFile)) {
+        return this.assetUrl(selected.category, exactFolder, variantFile)
       }
 
-      if ((req.fallback ?? 'original') === 'throw') {
+      const mode = req.fallback ?? this.defaultFallback
+
+      // 2. Nearest available variant that contains this file.
+      if (mode === 'nearest') {
+        const near = nearestVariant(variants, dims.width, dims.height, variantFile)
+        if (near) return this.assetUrl(selected.category, near, variantFile)
+        // no usable variant — fall back to the original
+      } else if (mode === 'throw') {
         throw new Error(
-          `[pictwo] No "${folder}" variant "${variantFile}" for category ` +
-          `"${selected.category}". Generate it with \`pnpm pictwo:images:generate\` ` +
-          'or use fallback: "original".',
+          `[pictwo] No "${exactFolder}" variant "${variantFile}" for category ` +
+          `"${selected.category}". Generate it with \`pnpm pictwo:images:generate\`, ` +
+          'or use fallback: "nearest" | "original".',
         )
       }
-      // fall through to the original asset
+      // mode === 'original' (or nothing nearby) — fall through to the original asset
     }
 
     return this.assetUrl(selected.category, 'original', selected.file)
   }
+}
+
+/**
+ * Find the variant folder closest to the requested dimensions that actually
+ * contains `file`. Distance is the Manhattan distance between dimension pairs;
+ * ties break on the smaller folder name for determinism. Returns `null` when no
+ * variant folder holds the file.
+ */
+export function nearestVariant (
+  variants: Record<string, string[]>,
+  width: number,
+  height: number,
+  file: string,
+): string | null {
+  let best: { folder: string; distance: number } | null = null
+
+  for (const folder of Object.keys(variants).sort()) {
+    const match = /^(\d+)x(\d+)$/.exec(folder)
+    if (!match) continue
+    if (!variants[folder].includes(file)) continue
+
+    const distance = Math.abs(Number(match[1]) - width) + Math.abs(Number(match[2]) - height)
+    if (!best || distance < best.distance) best = { folder, distance }
+  }
+
+  return best?.folder ?? null
 }
 
 /**

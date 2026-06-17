@@ -39,9 +39,17 @@ describe('faker extension (hosted default)', () => {
     expect(big.fashion()).toBe('https://pictwo.toneflix.net/category/fashion/1000/800')
   })
 
+  it('exposes a method for every shipped category, including hyphenated slugs', () => {
+    expect(image.africanFashion())
+      .toBe('https://pictwo.toneflix.net/category/african-fashion/640/480')
+    expect(image.technology({ width: 300, height: 300 }))
+      .toBe('https://pictwo.toneflix.net/category/technology/300/300')
+    expect(image.nature()).toBe('https://pictwo.toneflix.net/category/nature/640/480')
+  })
+
   it('throws a clear error for unsupported methods', () => {
     expect(() => (image as unknown as { dataUri: () => string }).dataUri())
-      .toThrowError(/Not implemented: image\.dataUri/)
+      .toThrow(/Not implemented: image\.dataUri/)
   })
 })
 

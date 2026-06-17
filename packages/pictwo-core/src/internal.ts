@@ -36,18 +36,28 @@ export function stripExt (file: string): string {
 /**
  * Resolve final width/height. Explicit dims win, then a size preset, then the
  * global fallback. Used by the hosted provider, which always needs dimensions.
+ *
+ * With a size preset, a missing dimension falls back to the preset value. Without
+ * a preset, a lone `width` mirrors to a square (matching the hosted `/{width}`
+ * route), and a fully empty request falls back to the global default.
  */
 export function resolveDimensions (
   req: ImageRequest,
   presets: SizePresets,
   fallback: SizeDimensions = DEFAULT_DIMENSIONS,
 ): SizeDimensions {
-  let base = fallback
-  if (req.size && presets[req.size]) base = presets[req.size]
+  if (req.size && presets[req.size]) {
+    const base = presets[req.size]
+
+    return {
+      width: req.width ?? base.width,
+      height: req.height ?? base.height,
+    }
+  }
 
   return {
-    width: req.width ?? base.width,
-    height: req.height ?? base.height,
+    width: req.width ?? fallback.width,
+    height: req.height ?? req.width ?? fallback.height,
   }
 }
 
