@@ -4,6 +4,12 @@
   "description": "Faker.js image module backed by the Pictwo placeholder image API.",
   "type": "module",
   "license": "MIT",
+  "homepage": "https://pictwo.toneflix.net",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arkstack-hq/pictwo.git",
+    "directory": "packages/pictwo-faker"
+  },
   "exports": {
     ".": {
       "import": {
