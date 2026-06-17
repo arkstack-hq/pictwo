@@ -16,5 +16,22 @@
   ],
   "scripts": {
     "prepack": "pnpm -w pictwo:images:cdn"
-  }
+  },
+  "keywords": [
+    "testing",
+    "nodejs",
+    "typescript",
+    "supertest",
+    "superagent",
+    "test",
+    "mocks",
+    "faker",
+    "images",
+    "lorem",
+    "lorem",
+    "jsdelivr",
+    "picsum",
+    "pictwo",
+    "fake"
+  ]
 }
