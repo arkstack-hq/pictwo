@@ -3,6 +3,12 @@
   "version": "1.0.0",
   "description": "Portable Pictwo image asset package (originals + generated variants + manifest).",
   "license": "MIT",
+  "homepage": "https://pictwo.toneflix.net",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arkstack-hq/pictwo.git",
+    "directory": "packages/pictwo-images"
+  },
   "files": [
     "images",
     "manifest.json",
