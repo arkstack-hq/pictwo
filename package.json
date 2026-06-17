@@ -2,7 +2,7 @@
   "name": "picktwo.photos",
   "description": "Drop-in placeholder images for every project built on Arkstack.",
   "type": "module",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "scripts": {
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
