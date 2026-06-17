@@ -89,7 +89,7 @@ export default class ImageController extends BaseController {
    * @param res 
    * @returns 
    */
-  private static serveCdn (
+  private static async serveCdn (
     args: string,
     query: Record<string, string>,
     res: HttpContext['res'],
@@ -99,7 +99,7 @@ export default class ImageController extends BaseController {
     }
 
     try {
-      const url = resolveCdnUrl(CdnService.get(), args, query)
+      const url = resolveCdnUrl(await CdnService.get(), args, query)
 
       return res.redirect(302, url)
     } catch (err) {

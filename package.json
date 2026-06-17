@@ -9,6 +9,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "dev": "ark dev",
+    "prebuild": "pnpm pictwo:build",
     "build": "ark build",
     "serve": "pnpm build && pnpm pictwo:images:sync && pm2 start serve.config.json --env production",
     "postinstall": "prepare",
