@@ -1,5 +1,7 @@
 import {
   DEFAULT_PICTWO_HOST,
+  PICTWO_CATEGORIES,
+  categoryMethodName,
   createPictwo,
 } from '@pictwo/core'
 import type { ImageCategory, ImageOptions, PictwoConfig } from '@pictwo/core'
@@ -25,13 +27,22 @@ export interface FakerFlickrOptions extends FakerUrlOptions {
 /** A Faker-compatible `image` module backed by Pictwo. */
 export interface PictwoFakerImage {
   url (options?: FakerUrlOptions): string
-  avatar (options?: ImageOptions): string
-  fashion (options?: ImageOptions): string
-  fabric (options?: ImageOptions): string
-  product (options?: ImageOptions): string
-  design (options?: ImageOptions): string
   urlPicsumPhotos (options?: FakerUrlOptions): string
   urlLoremFlickr (options?: FakerFlickrOptions): string
+  // One method per category shipped by `@pictwo/images` (camelCased slugs).
+  africanFashion (options?: ImageOptions): string
+  album (options?: ImageOptions): string
+  avatar (options?: ImageOptions): string
+  design (options?: ImageOptions): string
+  event (options?: ImageOptions): string
+  fabric (options?: ImageOptions): string
+  fashion (options?: ImageOptions): string
+  nature (options?: ImageOptions): string
+  people (options?: ImageOptions): string
+  poster (options?: ImageOptions): string
+  product (options?: ImageOptions): string
+  profile (options?: ImageOptions): string
+  technology (options?: ImageOptions): string
   /** Any unimplemented Faker image method throws a clear error. */
   [method: string]: (...args: never[]) => string
 }
@@ -79,12 +90,6 @@ export function createFakerImage (config: FakerImageConfig = {}): PictwoFakerIma
 
   const methods: Record<string, (options?: never) => string> = {
     url: (options: FakerUrlOptions = {}) => pictwo.image.url(dims(withPicsumFilters(options))),
-    avatar: (options: ImageOptions = {}) =>
-      pictwo.image.avatar(dims(options, DEFAULT_AVATAR, DEFAULT_AVATAR)),
-    fashion: (options: ImageOptions = {}) => pictwo.image.fashion(dims(options)),
-    fabric: (options: ImageOptions = {}) => pictwo.image.fabric(dims(options)),
-    product: (options: ImageOptions = {}) => pictwo.image.product(dims(options)),
-    design: (options: ImageOptions = {}) => pictwo.image.design(dims(options)),
     urlPicsumPhotos: (options: FakerUrlOptions = {}) =>
       pictwo.image.url(dims(withPicsumFilters(options))),
     urlLoremFlickr: (options: FakerFlickrOptions = {}) => {
@@ -96,6 +101,17 @@ export function createFakerImage (config: FakerImageConfig = {}): PictwoFakerIma
     },
   } as Record<string, (options?: never) => string>
 
+  // One method per shipped category (e.g. `african-fashion` -> `africanFashion`).
+  for (const category of PICTWO_CATEGORIES) {
+    const name = categoryMethodName(category)
+    // Avatars default to a square thumbnail to match Faker's `avatar()`.
+    const fallback: [number, number] =
+      category === 'avatar' ? [DEFAULT_AVATAR, DEFAULT_AVATAR] : [defWidth ?? DEFAULT_WIDTH, defHeight ?? DEFAULT_HEIGHT]
+
+    methods[name] = (options: ImageOptions = {}) =>
+      pictwo.image.byCategory(category, dims(options, fallback[0], fallback[1]))
+  }
+
   // Throw a clear error for any Faker image method we don't implement.
   return new Proxy(methods, {
     get (target, prop) {
@@ -106,7 +122,7 @@ export function createFakerImage (config: FakerImageConfig = {}): PictwoFakerIma
         throw new Error(`[pictwo-faker] Not implemented: image.${prop}() is not supported by the Pictwo provider.`)
       }
     },
-  }) as PictwoFakerImage
+  }) as unknown as PictwoFakerImage
 }
 
 /** Alias matching the documented `pictwoImage()` entry point. */

@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>{{ app_name }} — SDK Reference</title>
+  <meta name="description" content="Pictwo SDK reference: @pictwo/core, @pictwo/faker and @pictwo/images." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap"
+    rel="stylesheet" />
+  <link rel="icon" href="{{ config('app.url') + '/icon.png' }}" type="image/png" />
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --ink: #0e0e0f;
+      --ink-2: #3a3a40;
+      --ink-3: #7a7a85;
+      --surface: #f5f4f0;
+      --surface-2: #eceae3;
+      --surface-3: #e1dfd7;
+      --accent: #e85d26;
+      --line: rgba(14, 14, 15, 0.1);
+      --mono: 'DM Mono', monospace;
+      --serif: 'DM Serif Display', serif;
+      --sans: 'DM Sans', sans-serif;
+      --r: 6px;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--surface);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 3rem;
+      height: 60px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--line);
+    }
+
+    nav .logo img {
+      height: 26px;
+      display: block;
+    }
+
+    nav ul {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+      align-items: center;
+      font-size: 0.85rem;
+    }
+
+    nav a {
+      color: var(--ink-2);
+      text-decoration: none;
+    }
+
+    nav a:hover {
+      color: var(--accent);
+    }
+
+    .nav-cta {
+      background: var(--ink);
+      color: var(--surface) !important;
+      padding: 0.45rem 0.9rem;
+      border-radius: var(--r);
+    }
+
+    .wrap {
+      display: grid;
+      grid-template-columns: 220px minmax(0, 1fr);
+      gap: 3rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 3rem;
+    }
+
+    aside {
+      position: sticky;
+      top: 84px;
+      align-self: start;
+      font-size: 0.9rem;
+    }
+
+    aside .toc-title {
+      font-family: var(--mono);
+      text-transform: uppercase;
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      color: var(--ink-3);
+      margin-bottom: 0.75rem;
+    }
+
+    aside ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    aside a {
+      color: var(--ink-2);
+      text-decoration: none;
+    }
+
+    aside a:hover {
+      color: var(--accent);
+    }
+
+    main {
+      min-width: 0;
+    }
+
+    h1 {
+      font-family: var(--serif);
+      font-size: 2.8rem;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+    }
+
+    .lede {
+      font-size: 1.1rem;
+      color: var(--ink-2);
+      margin-bottom: 2.5rem;
+      max-width: 60ch;
+    }
+
+    section {
+      padding: 2rem 0;
+      border-top: 1px solid var(--line);
+    }
+
+    h2 {
+      font-family: var(--serif);
+      font-size: 1.7rem;
+      letter-spacing: -0.01em;
+      margin-bottom: 1rem;
+    }
+
+    h3 {
+      font-size: 1rem;
+      font-weight: 500;
+      margin: 1.5rem 0 0.5rem;
+    }
+
+    p {
+      max-width: 65ch;
+      color: var(--ink-2);
+      margin-bottom: 1rem;
+    }
+
+    code {
+      font-family: var(--mono);
+      font-size: 0.85em;
+      background: var(--surface-2);
+      padding: 0.1em 0.35em;
+      border-radius: 4px;
+    }
+
+    pre {
+      background: var(--ink);
+      color: #f3f1ea;
+      border-radius: var(--r);
+      padding: 1.1rem 1.25rem;
+      overflow-x: auto;
+      margin: 0.75rem 0 1.25rem;
+      font-size: 0.82rem;
+      line-height: 1.6;
+    }
+
+    pre code {
+      background: none;
+      padding: 0;
+      color: inherit;
+      font-size: inherit;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      margin: 0.75rem 0 1.25rem;
+    }
+
+    th,
+    td {
+      text-align: left;
+      padding: 0.5rem 0.75rem;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+
+    th {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--ink-3);
+    }
+
+    td code {
+      white-space: nowrap;
+    }
+
+    .pill {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      background: var(--surface-3);
+      color: var(--ink-2);
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      margin-right: 0.4rem;
+    }
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 2rem 3rem;
+      color: var(--ink-3);
+      font-size: 0.85rem;
+      text-align: center;
+    }
+
+    @media (max-width: 820px) {
+      nav {
+        padding: 0 1.25rem;
+      }
+
+      nav ul li:not(.nav-cta-li) {
+        display: none;
+      }
+
+      .wrap {
+        grid-template-columns: 1fr;
+        padding: 1.5rem;
+        gap: 1.5rem;
+      }
+
+      aside {
+        position: static;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav>
+    <a class="logo" href="{{ config('app.url') }}" aria-label="{{ app_name }} home">
+      <img src="{{ config('app.url') + '/logo.png' }}" alt="{{ app_name }}" />
+    </a>
+    <ul>
+      <li><a href="{{ config('app.url') }}">Home</a></li>
+      <li><a href="{{ config('app.url') }}#endpoints">REST API</a></li>
+      <li class="nav-cta-li"><a class="nav-cta" href="https://www.npmjs.com/package/@pictwo/core">npm →</a></li>
+    </ul>
+  </nav>
+
+  <div class="wrap">
+    <aside>
+      <div class="toc-title">SDK Reference</div>
+      <ul>
+        <li><a href="#install">Installation</a></li>
+        <li><a href="#core">@pictwo/core</a></li>
+        <li><a href="#options">Image options</a></li>
+        <li><a href="#providers">Providers</a></li>
+        <li><a href="#nearest">Nearest sizing</a></li>
+        <li><a href="#faker">@pictwo/faker</a></li>
+        <li><a href="#images">@pictwo/images</a></li>
+        <li><a href="#cd">CDN delivery (?cdn)</a></li>
+      </ul>
+    </aside>
+
+    <main>
+      <h1>Pictwo SDK</h1>
+      <p class="lede">
+        Typed helpers for generating {{ app_name }} image URLs — from the live hosted API, the jsDelivr CDN, or your
+        own static files. One small API, three providers.
+      </p>
+
+      <section id="install">
+        <h2>Installation</h2>
+        <p>The SDK ships as three packages. Most apps only need <code>@pictwo/core</code>.</p>
+        <pre><code>pnpm add @pictwo/core
+# optional helpers
+pnpm add @pictwo/faker @faker-js/faker
+pnpm add @pictwo/images          # portable image assets + manifest</code></pre>
+      </section>
+
+      <section id="core">
+        <h2>@pictwo/core</h2>
+        <p>
+          <code>pictwo</code> is a ready-made instance bound to the live hosted API. Use <code>createPictwo(config)</code>
+          for a custom host or a different provider.
+        </p>
+        <pre><code>import { pictwo } from '@pictwo/core'
+
+pictwo.image.url({ width: 800, height: 600 })
+// {{ config('app.url') }}/800/600
+
+pictwo.image.avatar({ width: 200, height: 200 })
+// {{ config('app.url') }}/category/avatar/200/200
+
+pictwo.image.fashion({ width: 800, height: 600, seed: 'home-card' })
+// {{ config('app.url') }}/category/fashion/800/600?seed=home-card
+
+pictwo.image.byId('20001', { width: 400, height: 300 })
+// {{ config('app.url') }}/id/20001/400/300
+
+pictwo.image.seed('hero', { width: 1200, height: 600 })
+// {{ config('app.url') }}/seed/hero/1200/600</code></pre>
+
+        <h3>Image API</h3>
+        <pre><code>pictwo.image.url(options?)
+pictwo.image.byCategory(category, options?)
+pictwo.image.byId(id, options?)
+pictwo.image.seed(seed, options?)
+// one shortcut per shipped category:
+pictwo.image.avatar / fashion / fabric / product / design / nature / …</code></pre>
+      </section>
+
+      <section id="options">
+        <h2>Image options</h2>
+        <pre><code>interface ImageOptions {
+  seed?: string | number
+  id?: string
+  width?: number
+  height?: number
+  size?: 'avatar' | 'thumb' | 'card' | 'portrait' | 'cover' | 'og' | string
+  format?: 'jpg' | 'jpeg' | 'png' | 'webp' | 'avif'
+  filters?: string[]               // e.g. ['greyscale', 'blur:4']
+  fallback?: 'original' | 'nearest' | 'throw'
+}</code></pre>
+        <h3>Size presets</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Preset</th>
+              <th>Dimensions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><code>avatar</code></td><td>128×128</td></tr>
+            <tr><td><code>thumb</code></td><td>256×256</td></tr>
+            <tr><td><code>card</code></td><td>400×400</td></tr>
+            <tr><td><code>portrait</code></td><td>600×800</td></tr>
+            <tr><td><code>cover</code></td><td>1200×600</td></tr>
+            <tr><td><code>og</code></td><td>1200×630</td></tr>
+          </tbody>
+        </table>
+        <pre><code>pictwo.image.url({ size: 'og' })                       // → /1200/630
+pictwo.image.url({ width: 800, height: 600, format: 'webp' })  // → /800/600.webp
+pictwo.image.url({ width: 800, height: 600, filters: ['greyscale', 'blur:4'] })
+// → /800/600?filters=greyscale,blur:4</code></pre>
+      </section>
+
+      <section id="providers">
+        <h2>Providers</h2>
+        <p><span class="pill">hosted</span> The live API with runtime Sharp processing (default).</p>
+        <pre><code>createPictwo({ source: { driver: 'hosted', baseUrl: '{{ config('app.url') }}' } })</code></pre>
+
+        <p><span class="pill">jsdelivr</span> Static assets from the published <code>@pictwo/images</code> package. Requires a manifest.</p>
+        <pre><code>import manifest from '@pictwo/images/manifest.json'
+
+const pictwo = createPictwo({
+  source: { driver: 'jsdelivr', packageName: '@pictwo/images', version: '1.0.0' },
+  manifest,
+})
+
+pictwo.image.fashion({ seed: 'home-card' })
+// https://cdn.jsdelivr.net/npm/@pictwo/images@1.0.0/images/fashion/original/model-001.jpg
+
+pictwo.image.fashion({ seed: 'home-card', size: 'card' })
+// https://cdn.jsdelivr.net/npm/@pictwo/images@1.0.0/images/fashion/400x400/model-001.webp</code></pre>
+
+        <p><span class="pill">local</span> Static paths served from your own app.</p>
+        <pre><code>createPictwo({ source: { driver: 'local', baseUrl: '/pictwo/images' }, manifest })
+// /pictwo/images/fashion/original/model-001.jpg</code></pre>
+      </section>
+
+      <section id="nearest">
+        <h2>Nearest sizing</h2>
+        <p>
+          Static providers only serve pre-generated variants. The <code>jsdelivr</code> provider snaps any requested
+          width/height to the <strong>nearest available variant</strong> by default, so you always get a real file.
+        </p>
+        <pre><code>jsdelivr.image.fashion({ width: 300, height: 300 })
+// → .../fashion/400x400/model-001.webp   (nearest variant)
+
+// opt local into the same behaviour:
+local.image.fashion({ width: 300, height: 300, fallback: 'nearest' })</code></pre>
+        <table>
+          <thead>
+            <tr><th>fallback</th><th>Behaviour when the exact variant is missing</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>nearest</code></td><td>snap to the closest available variant (jsdelivr default)</td></tr>
+            <tr><td><code>original</code></td><td>serve the full-size original (local default)</td></tr>
+            <tr><td><code>throw</code></td><td>raise a clear error</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="faker">
+        <h2>@pictwo/faker</h2>
+        <p>A Faker.js <code>image</code> module backed by Pictwo. Drop it onto <code>faker</code>:</p>
+        <pre><code>import { faker } from '@faker-js/faker'
+import { pictwoImage } from '@pictwo/faker'
+
+export const fake = { ...faker, image: pictwoImage() }
+
+fake.image.url()             // {{ config('app.url') }}/640/480
+fake.image.avatar()          // {{ config('app.url') }}/category/avatar/128/128
+fake.image.africanFashion()  // {{ config('app.url') }}/category/african-fashion/640/480
+fake.image.urlLoremFlickr({ category: 'fashion', width: 320, height: 240 })
+// {{ config('app.url') }}/images/fashion?w=320&h=240</code></pre>
+        <p>
+          There is one method per shipped category (hyphenated slugs become camelCase, e.g.
+          <code>african-fashion</code> → <code>africanFashion</code>). <code>urlPicsumPhotos()</code> also maps Faker's
+          <code>grayscale</code>/<code>blur</code> options onto filters. Unsupported Faker methods throw a clear
+          <code>Not implemented</code> error.
+        </p>
+      </section>
+
+      <section id="images">
+        <h2>@pictwo/images</h2>
+        <p>
+          The portable asset package: category originals, generated variants, and a deterministic
+          <code>manifest.json</code>. Manage it from the repo root:
+        </p>
+        <pre><code>pnpm pictwo:images:generate    # generate scaled variants (Sharp)
+pnpm pictwo:images:manifest    # rebuild manifest.json
+pnpm pictwo:images:build       # generate + manifest
+pnpm pictwo:images:sync        # copy originals → storage/app/public/images
+pnpm pictwo:images:clean       # remove generated variant folders</code></pre>
+      </section>
+
+      <section id="cd">
+        <h2>CDN delivery — <code>?cdn</code></h2>
+        <p>
+          Add <code>?cdn</code> to any image route on the hosted API to skip runtime processing. The API resolves the
+          matching jsDelivr URL (snapping requested dimensions to the nearest pre-generated variant) and
+          <strong>302-redirects</strong> straight to it — so it works as a drop-in <code>&lt;img&gt;</code> source.
+        </p>
+        <pre><code>GET {{ config('app.url') }}/category/fashion/400/400?cdn
+→ 302 Location: https://cdn.jsdelivr.net/npm/@pictwo/images@x/images/fashion/400x400/…webp
+
+GET {{ config('app.url') }}/id/20001/800/600?cdn
+GET {{ config('app.url') }}/seed/hero/1200/600?cdn
+
+&lt;img src="{{ config('app.url') }}/category/fashion/400/400?cdn" /&gt;</code></pre>
+        <p>
+          The same route shapes as the REST API are supported (<code>/{w}/{h}</code>, <code>/id/…</code>,
+          <code>/seed/…</code>, <code>/category/…</code>). CDN variants are served as <code>webp</code> by default.
+        </p>
+      </section>
+    </main>
+  </div>
+
+  <footer>
+    {{ app_name }} · <a href="{{ config('app.url') }}" style="color:var(--accent);text-decoration:none">back to home</a>
+  </footer>
+</body>
+
+</html>

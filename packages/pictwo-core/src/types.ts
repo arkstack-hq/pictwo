@@ -7,14 +7,10 @@
  */
 export type ImageProvider = 'hosted' | 'jsdelivr' | 'local'
 
+import type { KnownCategory } from './categories'
+
 /** Known categories shipped by `@pictwo/images`, plus any custom string. */
-export type ImageCategory =
-  | 'avatar'
-  | 'fashion'
-  | 'fabric'
-  | 'product'
-  | 'design'
-  | (string & {})
+export type ImageCategory = KnownCategory | (string & {})
 
 /** Output formats understood by the hosted API and the variant generator. */
 export type ImageFormat = 'jpg' | 'jpeg' | 'png' | 'webp' | 'avif'
@@ -36,10 +32,13 @@ export interface ImageOptions {
   filters?: string[]
   /**
    * Behaviour when a requested static variant is missing (jsdelivr/local only).
-   * - `original` (default) — fall back to the original asset URL
+   * - `original` — fall back to the original asset URL
+   * - `nearest` — snap to the closest available variant (jsdelivr default)
    * - `throw` — raise a clear error
+   *
+   * Defaults to `nearest` for the jsdelivr provider and `original` for local.
    */
-  fallback?: 'original' | 'throw'
+  fallback?: 'original' | 'nearest' | 'throw'
 }
 
 /** A width/height pair resolved from a preset or explicit options. */

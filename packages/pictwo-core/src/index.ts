@@ -11,6 +11,9 @@ export {
 } from './presets'
 
 export { seedIndex } from './internal'
+export { nearestVariant } from './providers/static'
+export { PICTWO_CATEGORIES, categoryMethodName } from './categories'
+export type { KnownCategory } from './categories'
 
 export type {
   PictwoConfig,

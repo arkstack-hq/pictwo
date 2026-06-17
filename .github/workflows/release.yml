@@ -1,0 +1,82 @@
+name: Release
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to publish (e.g. 1.2.3)'
+        required: true
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 10
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: pnpm
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Resolve version
+        id: version
+        run: |
+          VERSION="${{ github.event.inputs.version || github.event.release.tag_name }}"
+          VERSION="${VERSION#v}"
+          if [ -z "$VERSION" ]; then echo "No version provided" && exit 1; fi
+          echo "value=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Set package versions
+        run: pnpm pictwo:version ${{ steps.version.outputs.value }}
+
+      - name: Build packages
+        run: pnpm pictwo:build
+
+      - name: Test packages
+        run: pnpm pictwo:test
+
+      - name: Commit version bump
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add package.json packages/*/package.json
+          if git diff --cached --quiet; then
+            echo "No version changes to commit."
+          else
+            git commit -m "chore(release): v${{ steps.version.outputs.value }}"
+            BRANCH="${GITHUB_REF_NAME}"
+            if [ "${{ github.event_name }}" = "release" ]; then BRANCH="${{ github.event.release.target_commitish }}"; fi
+            git push origin "HEAD:${BRANCH:-main}"
+          fi
+
+      - name: Tag release
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          git tag "v${{ steps.version.outputs.value }}" || echo "tag exists"
+          git push origin "v${{ steps.version.outputs.value }}" || echo "tag already pushed"
+
+      - name: Publish to npm
+        run: pnpm --filter "@pictwo/*" publish --access public --no-git-checks
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
