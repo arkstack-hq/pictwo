@@ -1,5 +1,9 @@
 # @pictwo/core
 
+[![@pictwo/core](https://img.shields.io/npm/dt/@pictwo/core.svg)](https://www.npmjs.com/package/@pictwo/core)
+[![@pictwo/faker](https://img.shields.io/npm/dt/@pictwo/faker.svg)](https://www.npmjs.com/package/@pictwo/faker)
+[![@pictwo/images](https://img.shields.io/npm/dt/@pictwo/images.svg)](https://www.npmjs.com/package/@pictwo/images)
+
 URL-generation core for **Pictwo** — The open-source drop-in placeholder images service built on Arkstack with a hosted version currently available from [pictwo.toneflix.net](https://pictwo.toneflix.net). It builds image URLs for three
 providers from one small, typed API.
 

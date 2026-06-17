@@ -1,5 +1,9 @@
 # @pictwo/faker
 
+[![@pictwo/core](https://img.shields.io/npm/dt/@pictwo/core.svg)](https://www.npmjs.com/package/@pictwo/core)
+[![@pictwo/faker](https://img.shields.io/npm/dt/@pictwo/faker.svg)](https://www.npmjs.com/package/@pictwo/faker)
+[![@pictwo/images](https://img.shields.io/npm/dt/@pictwo/images.svg)](https://www.npmjs.com/package/@pictwo/images)
+
 A [Faker.js](https://fakerjs.dev) `image` module backed by **Pictwo**. Drop it onto
 `faker` to make every generated image URL resolve to the hosted ArkStack image API
 (or any provider supported by [`@pictwo/core`](../pictwo-core)).

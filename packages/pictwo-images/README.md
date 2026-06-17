@@ -1,5 +1,9 @@
 # @pictwo/images
 
+[![@pictwo/core](https://img.shields.io/npm/dt/@pictwo/core.svg)](https://www.npmjs.com/package/@pictwo/core)
+[![@pictwo/faker](https://img.shields.io/npm/dt/@pictwo/faker.svg)](https://www.npmjs.com/package/@pictwo/faker)
+[![@pictwo/images](https://img.shields.io/npm/dt/@pictwo/images.svg)](https://www.npmjs.com/package/@pictwo/images)
+
 The portable **Pictwo** image asset package: category originals, generated variants, and
 a deterministic `manifest.json`. Consumed by [`@pictwo/core`](../pictwo-core) via the
 `jsdelivr` and `local` providers, and syncable into the hosted API's storage.

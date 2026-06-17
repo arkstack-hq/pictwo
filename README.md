@@ -1,5 +1,11 @@
 # pictwo
 
+[![@pictwo/core](https://img.shields.io/npm/dt/@pictwo/core.svg)](https://www.npmjs.com/package/@pictwo/core)
+[![@pictwo/faker](https://img.shields.io/npm/dt/@pictwo/faker.svg)](https://www.npmjs.com/package/@pictwo/faker)
+[![@pictwo/images](https://img.shields.io/npm/dt/@pictwo/images.svg)](https://www.npmjs.com/package/@pictwo/images)
+[![Release](https://github.com/arkstack-hq/pictwo/actions/workflows/release.yml/badge.svg)](https://github.com/arkstack-hq/pictwo/actions/workflows/release.yml)
+[![Run Tests](https://github.com/arkstack-hq/pictwo/actions/workflows/tests.yml/badge.svg)](https://github.com/arkstack-hq/pictwo/actions/workflows/tests.yml)
+
 A self-hosted image placeholder service with two compatible URL styles, category browsing, deterministic seeding, and real-time image processing via [sharp](https://sharp.pixelplumbing.com).
 
 Drop-in replacement for [Lorem Picsum](https://picsum.photos) with additional [Lorem Toneflix](https://lorem.toneflix.com.ng) API compatibility.
