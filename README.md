@@ -19,6 +19,7 @@ Drop-in replacement for [Lorem Picsum](https://picsum.photos) with additional [L
 - [Filters](#filters)
 - [Seeding](#seeding)
 - [Architecture](#architecture)
+- [Pictwo Packages](#pictwo-packages)
 - [Nginx](#nginx)
 - [Contributing](#contributing)
   - [Getting started](#getting-started)
@@ -308,6 +309,41 @@ src/
 **`ImageServiceProvider`** is a static singleton façade. It initialises and caches the `ImageService` instance and provides stateless utility methods (`fileId`, `findById`, `seedIndex`, `toListItem`) used by both controllers.
 
 **Controllers** are thin. They parse the request (path params, query string), call the service and `Image` class, set response headers, and flush the buffer. No image processing logic lives in a controller.
+
+## Pictwo Packages
+
+This repository is a [PNPM workspace](https://pnpm.io/workspaces). The hosted API lives at
+the repo root; reusable Pictwo packages live under [`packages/`](packages/):
+
+| Package                                    | Description                                                         |
+| ------------------------------------------ | ------------------------------------------------------------------- |
+| [`@pictwo/core`](packages/pictwo-core)     | Typed URL generation for the hosted, jsDelivr, and local providers. |
+| [`@pictwo/faker`](packages/pictwo-faker)   | A Faker.js `image` module backed by Pictwo.                         |
+| [`@pictwo/images`](packages/pictwo-images) | Portable image asset package (originals, variants, manifest).       |
+
+```ts
+import { pictwo } from '@pictwo/core';
+
+pictwo.image.fashion({ width: 800, height: 600, seed: 'home-card' });
+// https://pictwo.toneflix.net/category/fashion/800/600?seed=home-card
+```
+
+Workspace scripts (run from the repo root):
+
+```bash
+pnpm pictwo:build          # build @pictwo/core + @pictwo/faker
+pnpm pictwo:test           # test the core + faker packages
+pnpm pictwo:typecheck      # typecheck the core + faker packages
+
+pnpm pictwo:images:generate   # generate scaled variants (Sharp)
+pnpm pictwo:images:manifest   # rebuild packages/pictwo-images/manifest.json
+pnpm pictwo:images:build      # generate + manifest
+pnpm pictwo:images:sync       # copy package originals → storage/app/public/images
+pnpm pictwo:images:clean      # remove generated variant folders
+```
+
+The core package only generates URLs and consumes manifests — the hosted API keeps doing
+runtime Sharp processing from `storage/app/public/images`. See each package README for details.
 
 ## Nginx
 

@@ -11,7 +11,15 @@
     "dev": "ark dev",
     "build": "ark build",
     "serve": "pnpm build && pm2 start serve.config.json --env production",
-    "postinstall": "prepare"
+    "postinstall": "prepare",
+    "pictwo:build": "pnpm --filter @pictwo/core build && pnpm --filter @pictwo/faker build",
+    "pictwo:test": "pnpm --filter @pictwo/core test && pnpm --filter @pictwo/faker test",
+    "pictwo:typecheck": "pnpm --filter @pictwo/core typecheck && pnpm --filter @pictwo/faker typecheck",
+    "pictwo:images:generate": "tsx scripts/pictwo/generate-scaled-images.ts",
+    "pictwo:images:clean": "tsx scripts/pictwo/remove-scaled-images.ts",
+    "pictwo:images:manifest": "tsx scripts/pictwo/build-image-manifest.ts",
+    "pictwo:images:sync": "tsx scripts/pictwo/sync-images.ts",
+    "pictwo:images:build": "pnpm pictwo:images:generate && pnpm pictwo:images:manifest"
   },
   "dependencies": {
     "@arkstack/common": "^0.12.6",
@@ -57,6 +65,7 @@
     "reflect-metadata": "^0.2.2",
     "source-map-support": "^0.5.21",
     "tsdown": "^0.22.0",
+    "tsx": "^4.22.4",
     "typescript": "^6.0.0",
     "typescript-eslint": "^8.59.2",
     "unplugin-swc": "^1.5.9",

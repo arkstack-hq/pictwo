@@ -132,6 +132,9 @@ importers:
       tsdown:
         specifier: ^0.22.0
         version: 0.22.2(tsx@4.22.4)(typescript@6.0.3)(unrun@0.3.0)
+      tsx:
+        specifier: ^4.22.4
+        version: 4.22.4
       typescript:
         specifier: ^6.0.0
         version: 6.0.3
@@ -147,6 +150,45 @@ importers:
       vitest:
         specifier: ^4.1.5
         version: 4.1.8(@types/node@25.9.1)(vite@8.0.16(@types/node@25.9.1)(esbuild@0.28.0)(jiti@2.7.0)(tsx@4.22.4))
+
+  packages/pictwo-core:
+    devDependencies:
+      '@types/node':
+        specifier: ^25.6.2
+        version: 25.9.1
+      tsdown:
+        specifier: ^0.22.0
+        version: 0.22.2(tsx@4.22.4)(typescript@6.0.3)(unrun@0.3.0)
+      typescript:
+        specifier: ^6.0.0
+        version: 6.0.3
+      vitest:
+        specifier: ^4.1.5
+        version: 4.1.8(@types/node@25.9.1)(vite@8.0.16(@types/node@25.9.1)(esbuild@0.28.0)(jiti@2.7.0)(tsx@4.22.4))
+
+  packages/pictwo-faker:
+    dependencies:
+      '@pictwo/core':
+        specifier: workspace:*
+        version: link:../pictwo-core
+    devDependencies:
+      '@faker-js/faker':
+        specifier: ^10.4.0
+        version: 10.4.0
+      '@types/node':
+        specifier: ^25.6.2
+        version: 25.9.1
+      tsdown:
+        specifier: ^0.22.0
+        version: 0.22.2(tsx@4.22.4)(typescript@6.0.3)(unrun@0.3.0)
+      typescript:
+        specifier: ^6.0.0
+        version: 6.0.3
+      vitest:
+        specifier: ^4.1.5
+        version: 4.1.8(@types/node@25.9.1)(vite@8.0.16(@types/node@25.9.1)(esbuild@0.28.0)(jiti@2.7.0)(tsx@4.22.4))
+
+  packages/pictwo-images: {}
 
 packages:
 
