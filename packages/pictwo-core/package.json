@@ -1,7 +1,7 @@
 {
   "name": "@pictwo/core",
   "version": "1.0.0",
-  "description": "URL-generation core for Pictwo — the ArkStack hosted placeholder image API.",
+  "description": "URL-generation core for Pictwo — The open-source drop-in placeholder images service.",
   "type": "module",
   "license": "MIT",
   "exports": {
