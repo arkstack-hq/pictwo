@@ -10,7 +10,7 @@
     "test:watch": "vitest",
     "dev": "ark dev",
     "build": "ark build",
-    "serve": "pnpm build && pm2 start serve.config.json --env production",
+    "serve": "pnpm build && pnpm pictwo:images:sync && pm2 start serve.config.json --env production",
     "postinstall": "prepare",
     "pictwo:build": "pnpm --filter @pictwo/core build && pnpm --filter @pictwo/faker build",
     "pictwo:test": "pnpm --filter @pictwo/core test && pnpm --filter @pictwo/faker test",

@@ -8,6 +8,7 @@ dist
 /public/storage
 /storage/*.key
 /storage/framework
+/storage/app/public/images/*
 
 # Generated CDN image distribution: built from packages/pictwo-images/images,
 # published to npm (and served by jsDelivr); never committed.
