@@ -1,6 +1,6 @@
 {
   "name": "@pictwo/faker",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "Faker.js image module backed by the Pictwo placeholder image API.",
   "type": "module",
   "license": "MIT",
