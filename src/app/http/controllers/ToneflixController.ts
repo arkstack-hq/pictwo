@@ -23,7 +23,7 @@ import { ImageServiceProvider } from 'src/app/services/ImageServiceProvider'
  */
 export default class ToneflixController extends BaseController {
 
-    async show ({ req, res }: HttpContext) {
+    async show({ req, res }: HttpContext) {
         const service = await ImageServiceProvider.get()
         const all = service.getAllFiles()
 
@@ -81,6 +81,7 @@ export default class ToneflixController extends BaseController {
         )
 
         const { buffer: rawBuf, headers } = await image.toResponse({
+            font: (req.query.font as string) ?? 'serif',
             label,
             format,
             resize: { mode: 'cover', width, height },
@@ -94,7 +95,7 @@ export default class ToneflixController extends BaseController {
         res.end(rawBuf)
     }
 
-    private static resolveFormat (hint: string): ImageFormat {
+    private static resolveFormat(hint: string): ImageFormat {
         const ext = (hint ?? '').replace(/^\./, '').toLowerCase()
         if (ext === 'jpg' || ext === 'jpeg') return 'jpeg'
         if (ext === 'webp' || ext === 'avif' || ext === 'png') return ext
@@ -113,7 +114,7 @@ export default class ToneflixController extends BaseController {
      * @param query 
      * @returns 
      */
-    static resolveFilters (query: Record<string, string | string[]>): {
+    static resolveFilters(query: Record<string, string | string[]>): {
         filters: ImageFilter[]
         blurSigma?: number
     } {
@@ -163,10 +164,13 @@ export default class ToneflixController extends BaseController {
     /**
      * Any query param that isn't a reserved keyword acts as a seed.
      * Returns null when no seeding params are present (→ true random).
+     * 
+     * @param query 
+     * @returns 
      */
-    static extractSeed (query: Record<string, string>): string | null {
+    static extractSeed(query: Record<string, string>): string | null {
         const RESERVED = new Set([
-            'w', 'h', 'width', 'height', 'filters', 'text',
+            'w', 'h', 'width', 'height', 'filters', 'text', 'font',
             'grayscale', 'greyscale', 'blur', 'random', 'format', 'cdn',
         ])
         const keys = Object.keys(query).filter(k => !RESERVED.has(k))

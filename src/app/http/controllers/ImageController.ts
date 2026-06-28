@@ -8,7 +8,6 @@ import { ImageServiceProvider } from 'src/app/services/ImageServiceProvider'
 import { RequestException } from '@arkstack/common'
 import ToneflixController from './ToneflixController'
 import { resolveCdnUrl } from 'src/app/services/cdnResolver'
-import { view } from '@arkstack/view'
 
 /**
  * GET /{width}
@@ -28,16 +27,11 @@ export default class ImageController extends BaseController {
    *
    * @param res
    */
-  async show ({ req, res }: HttpContext) {
+  async show({ req, res }: HttpContext) {
     const args = (Array.isArray(req.params.args)
       ? req.params.args.join('/')
       : req.params.args ?? ''
     ).replace(/^\//, '')
-
-    // Front-controller pages that the image wildcard would otherwise shadow.
-    if (args === 'docs') {
-      return await view('docs', { title: 'SDK Reference', app_name: config('app.name') })
-    }
 
     // `?cdn` skips runtime processing and resolves a jsDelivr CDN URL instead.
     if ('cdn' in req.query) {
@@ -89,7 +83,7 @@ export default class ImageController extends BaseController {
    * @param res 
    * @returns 
    */
-  private static async serveCdn (
+  private static async serveCdn(
     args: string,
     query: Record<string, string>,
     res: HttpContext['res'],
@@ -109,14 +103,14 @@ export default class ImageController extends BaseController {
     }
   }
 
-  private static resolveFormat (args: string): ImageFormat {
+  private static resolveFormat(args: string): ImageFormat {
     const ext = args.match(/\.(jpg|jpeg|webp|png|avif)$/)?.[1]
     if (!ext) return 'jpeg'
 
     return (ext === 'jpg' ? 'jpeg' : ext) as ImageFormat
   }
 
-  private static resolveImage (
+  private static resolveImage(
     args: string,
     all: Image[],
     query: Record<string, string> = {},
@@ -183,7 +177,7 @@ export default class ImageController extends BaseController {
    * @param query 
    * @returns 
    */
-  private static mergeFilters (query: Record<string, string>): {
+  private static mergeFilters(query: Record<string, string>): {
     filters: ImageFilter[]
     blurSigma?: number
   } {

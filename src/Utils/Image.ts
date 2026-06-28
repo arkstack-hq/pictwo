@@ -1,5 +1,6 @@
 import sharp, { type Sharp } from 'sharp'
 import { MakeOptions, ImageFormat } from 'src/types/core'
+import { font } from './font'
 
 export class Image {
     name: string
@@ -33,9 +34,9 @@ export class Image {
      * @param input     Absolute path to the source image.
      * @param options   Format, quality, resize mode, and filters.
      */
-    async make (options: MakeOptions): Promise<Buffer>
-    async make (input: string | MakeOptions, options: MakeOptions): Promise<Buffer>
-    async make (input?: string | MakeOptions, options: MakeOptions = {}): Promise<Buffer> {
+    async make(options: MakeOptions): Promise<Buffer>
+    async make(input: string | MakeOptions, options: MakeOptions): Promise<Buffer>
+    async make(input?: string | MakeOptions, options: MakeOptions = {}): Promise<Buffer> {
         if (input && typeof input !== 'string') {
             options = input
             input = this.path
@@ -116,11 +117,12 @@ export class Image {
      * @param height 
      * @returns 
      */
-    async overlayText (
+    async overlayText(
         buffer: Buffer,
         text: string,
         width: number,
         height: number,
+        fontName?: string,
     ): Promise<Buffer> {
         const fontSize = Math.max(16, Math.round(Math.min(width, height) * 0.07))
         const padX = Math.round(fontSize * 0.8)
@@ -133,8 +135,14 @@ export class Image {
 
         const svg = `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
           <rect x="${x}" y="${y}" width="${bgW}" height="${bgH}" rx="6" fill="rgba(0,0,0,0.55)"/>
-          <text x="${width / 2}" y="${y + bgH / 2 + fontSize * 0.35}"
-                font-family="sans-serif" font-size="${fontSize}"
+            <style>
+                text {
+                font-family: ${font(fontName ?? 'serif')}
+                font-size: ${fontSize}px;
+                font-weight: bold;
+                }
+            </style>
+          <text x="${width / 2}" y="${y + bgH / 2 + fontSize * 0.35}" 
                 fill="white" text-anchor="middle">${text}</text>
         </svg>`
 
@@ -150,7 +158,7 @@ export class Image {
      * @param destination 
      * @param options 
      */
-    async save (destination: string, options: MakeOptions = {}): Promise<void> {
+    async save(destination: string, options: MakeOptions = {}): Promise<void> {
         const buffer = await this.make(options)
         await sharp(buffer).toFile(destination)
     }
@@ -162,13 +170,13 @@ export class Image {
      * @param input     Absolute path to the source image.
      * @param options   Format, quality, resize mode, and filters.
      */
-    async toResponse (options: MakeOptions = {}): Promise<{
+    async toResponse(options: MakeOptions = {}): Promise<{
         buffer: Buffer
         contentType: string
         headers: Record<string, string>
     }> {
         const format = options.format ?? 'jpeg'
-        const buffer = await this.make(options)
+        let buffer = await this.make(options)
 
         const contentTypeMap: Record<ImageFormat, string> = {
             jpeg: 'image/jpeg',
@@ -178,11 +186,12 @@ export class Image {
         }
 
         if (options.label) {
-            this.overlayText(
+            buffer = await this.overlayText(
                 buffer,
                 options.label,
                 options.resize?.width ?? 800,
-                options.resize?.height ?? 600
+                options.resize?.height ?? 600,
+                options.font,
             )
         }
 

@@ -1,3 +1,4 @@
+import DocsController from 'src/app/http/controllers/DocsController'
 import ImageController from 'src/app/http/controllers/ImageController'
 import { ImageServiceProvider } from 'src/app/services/ImageServiceProvider'
 import { Router } from '@arkstack/driver-express'
@@ -14,5 +15,6 @@ Router.get('/', async () => {
   })
 })
 
-Router.get('/*args', [ImageController, 'show'])
-Router.get('/images/:segments', [ToneflixController, 'show'])
+Router.get('/docs', [DocsController, 'show'])
+Router.get('/images/{segments}', [ToneflixController, 'show'])
+Router.get('/{args}', [ImageController, 'show']).where('args', '.*')

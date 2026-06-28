@@ -16,6 +16,7 @@ export type ImageFilter =
     | 'flop'
 
 export interface MakeOptions {
+    font?: string
     label?: string
     format?: ImageFormat
     quality?: number
