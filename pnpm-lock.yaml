@@ -44,18 +44,12 @@ importers:
       '@inertiajs/react':
         specifier: ^3.5.0
         version: 3.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      '@inertiajs/vite':
-        specifier: ^3.5.0
-        version: 3.5.0(vite@8.1.0(@types/node@25.9.4)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.22.4))
       '@pictwo/core':
         specifier: workspace:*
         version: link:packages/pictwo-core
       '@pictwo/images':
         specifier: workspace:*
         version: link:packages/pictwo-images
-      '@tailwindcss/vite':
-        specifier: ^4.3.1
-        version: 4.3.1(vite@8.1.0(@types/node@25.9.4)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.22.4))
       argon2:
         specifier: ^0.44.0
         version: 0.44.0
@@ -126,9 +120,15 @@ importers:
       '@faker-js/faker':
         specifier: ^10.5.0
         version: 10.5.0
+      '@inertiajs/vite':
+        specifier: ^3.5.0
+        version: 3.5.0(vite@8.1.0(@types/node@25.9.4)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.22.4))
       '@rollup/plugin-run':
         specifier: ^3.1.0
         version: 3.1.0
+      '@tailwindcss/vite':
+        specifier: ^4.3.1
+        version: 4.3.1(vite@8.1.0(@types/node@25.9.4)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.22.4))
       '@types/cors':
         specifier: ^2.8.19
         version: 2.8.19
