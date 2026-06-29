@@ -1,4 +1,4 @@
-const fonts: Record<string, string> = {
+export const fonts: Record<string, string> = {
     times: '"Times", "Times New Roman", "Georgia", serif;',
     verdana: '"Verdana", "Helvetica", "Arial", sans-serif;',
     lucida: '"Lucida Console", "Courier New", monospace;',

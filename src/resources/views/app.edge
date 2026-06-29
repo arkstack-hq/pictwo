@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta property="dev-mode" content="{{env('NODE_ENV')}}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>{{page.props.appName}} — {{page.props.title}}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@toneflix" />
+    <meta name="twitter:title" content="{{page.props.appName}}" />
+    <meta name="twitter:description" content="{{page.props.description}}" />
+    <meta name="twitter:image"
+        content="{{config('app.url')}}/category/fashion/800/600.jpg?seed=spray&filters=greyscale" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="{{page.props.appName}}" />
+    <meta property="og:description" content="{{page.props.description}}" />
+    <meta property="og:url" content="{{page.props.canonical}}/" />
+    <meta property="og:image"
+        content="{{config('app.url')}}/category/fashion/800/600.jpg?seed=spray&filters=greyscale" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap"
+        rel="stylesheet" />
+    <link rel="icon" href="{{config('app.url')}}/icon.png" sizes="32x32" />
+    <link rel="icon" href="{{config('app.url')}}/icon.png" type="image/png" />
+    <link rel="apple-touch-icon" href="{{config('app.url')}}/icon.png" />
+
+    @inertiaHead
+    @viteReactRefresh
+    @vite(['resources/js/app.tsx', 'resources/css/app.css'])
+
+</head>
+
+<body>
+    @inertia
+</body>
+
+</html>

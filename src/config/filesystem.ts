@@ -47,6 +47,19 @@ export default (): FilesystemConfig => {
                 url: env('AWS_URL'),
                 endpoint: env('AWS_ENDPOINT'),
                 visibility: 'public',
+            },
+            gcs: {
+                driver: 'gcs',
+                /**
+                 * The bucket from which to read and write files
+                 */
+                bucket: env('GCS_BUCKET'),
+                /**
+                 * The default visibility of all the objects within the
+                 * bucket. The property is only considered when the
+                 * bucket is not using uniformACL.
+                 */
+                visibility: 'public'
             }
         },
 

@@ -1,0 +1,18 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-mono: 'DM Mono', monospace;
+  --font-serif: 'DM Serif Display', serif;
+  --font-sans: 'DM Sans', sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #f5f4f0;
+  color: #0e0e0f;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
