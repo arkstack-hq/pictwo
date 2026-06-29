@@ -2,6 +2,7 @@ node_modules
 dist
 /build
 /public/build
+/dist-ssr
 # Keep environment variables out of version control
 .env
 
