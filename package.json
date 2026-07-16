@@ -62,12 +62,12 @@
     "tailwindcss": "^4.3.1"
   },
   "devDependencies": {
-    "@inertiajs/vite": "^3.5.0",
-    "@tailwindcss/vite": "^4.3.1",
     "@eslint/js": "^10.0.1",
     "@eslint/markdown": "^8.0.2",
     "@faker-js/faker": "^10.5.0",
+    "@inertiajs/vite": "^3.5.0",
     "@rollup/plugin-run": "^3.1.0",
+    "@tailwindcss/vite": "^4.3.1",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/node": "^25.9.4",
@@ -83,7 +83,6 @@
     "tsx": "^4.22.4",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.62.0",
-    "unplugin-swc": "^1.5.9",
     "unrun": "^0.3.1",
     "vite": "^8.1.0",
     "vitest": "^4.1.9"
