@@ -12,7 +12,7 @@
     "prebuild": "pnpm pictwo:build",
     "build": "ark build",
     "build:ssr": "vite build --ssr resources/js/ssr.tsx --outDir dist-ssr",
-    "serve": "pnpm build && pnpm pictwo:images:sync && pnpm build:ssr && pm2 start serve.config.json --env production",
+    "serve": "pnpm build && pnpm pictwo:images:sync && pnpm build:ssr && pm2 startOrReload serve.config.json --env production",
     "postinstall": "prepare",
     "pictwo:build": "pnpm --filter @pictwo/core build && pnpm --filter @pictwo/faker build",
     "pictwo:test": "pnpm --filter @pictwo/core test && pnpm --filter @pictwo/faker test",
