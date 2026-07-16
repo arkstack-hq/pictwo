@@ -409,18 +409,21 @@ Each file must be **125 KB or smaller**. Compress images before submitting — [
 
 #### Category ID ranges
 
-| Category          | Range         |
-| ----------------- | ------------- |
-| `album`           | 00001 – 09999 |
-| `avatar`          | 10001 – 19999 |
-| `event`           | 20001 – 29999 |
-| `nature`          | 30001 – 39999 |
-| `poster`          | 40001 – 49999 |
-| `technology`      | 50001 – 59999 |
-| `african-fashion` | 60001 – 69999 |
-| `fashion`         | 70001 – 79999 |
-| `profile`         | 80001 – 80999 |
-| `people`          | 90001 – 99999 |
+| Category          | Range           |
+| ----------------- | --------------- |
+| `album`           | 00001 – 09999   |
+| `avatar`          | 10001 – 19999   |
+| `event`           | 20001 – 29999   |
+| `nature`          | 30001 – 39999   |
+| `poster`          | 40001 – 49999   |
+| `technology`      | 50001 – 59999   |
+| `african-fashion` | 60001 – 69999   |
+| `fashion`         | 70001 – 79999   |
+| `profile`         | 80001 – 80999   |
+| `people`          | 90001 – 99999   |
+| `fabric`          | 100001 – 109999 |
+| `design`          | 110001 – 119999 |
+| `product`         | 120001 – 129999 |
 
 Check existing files in the category directory to find the next available number before adding yours.
 
