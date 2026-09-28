@@ -1,2 +1,16 @@
 packages:
   - "packages/*"
+
+minimumReleaseAge: 1440
+
+minimumReleaseAgeExclude:
+  - '@arkstack/*'
+  - '@h3ravel/*'
+  - '@kanun-hq/*'
+  - '@resora/*'
+  - '@arkormx/*'
+  - '@pictwo/*'
+  - clear-router
+  - arkormx
+  - resora
+  - kanun
