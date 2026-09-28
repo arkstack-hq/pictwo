@@ -10,7 +10,7 @@ export default defineConfig({
         tailwindcss(),
         inertia({
             ssr: {
-                sourcemap: true
+                sourcemap: false
             }
         }),
     ],

@@ -43,7 +43,7 @@ export default defineConfig([
         dts: '.d.ts',
       }
     },
-    hooks (e) {
+    hooks(e) {
       e.hook('build:done', async (e) => {
         for (let i = 0; i < e.chunks.length; i++) {
           const chunk = e.chunks[i]
