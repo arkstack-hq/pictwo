@@ -1,6 +1,13 @@
 packages:
   - "packages/*"
 
+allowBuilds:
+  argon2: true
+  cpu-features: true
+  esbuild: true
+  sharp: true
+  ssh2: true
+
 minimumReleaseAge: 1440
 
 minimumReleaseAgeExclude:
