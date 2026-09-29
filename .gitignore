@@ -22,5 +22,6 @@ dist
 .arkormx
 .DS_Store
 .idea
+.nginx.*
 .vscode
 .claude

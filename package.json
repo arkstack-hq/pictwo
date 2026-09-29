@@ -10,7 +10,7 @@
     "test:watch": "vitest",
     "dev": "ark dev",
     "prebuild": "pnpm pictwo:build",
-    "build": "ark build",
+    "build": "ark build && vite build",
     "build:ssr": "vite build --ssr resources/js/ssr.tsx --outDir dist-ssr",
     "serve": "pnpm build && pnpm pictwo:images:sync && pnpm build:ssr && pm2 startOrReload serve.config.json --env production",
     "postinstall": "prepare",
