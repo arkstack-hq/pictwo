@@ -77,7 +77,7 @@ jobs:
           git push origin "v${{ steps.version.outputs.value }}" || echo "tag already pushed"
 
       - name: Build CDN image distribution
-        run: pnpm pictwo:images:cdn
+        run: pnpm pictwo:images:cdn -- --quality 68
 
       - name: Publish to npm
         run: pnpm --filter "@pictwo/*" publish --access public --no-git-checks

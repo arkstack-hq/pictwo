@@ -42,5 +42,8 @@ jobs:
       - name: Build image manifest
         run: pnpm pictwo:images:manifest
 
+      - name: Sync images into app storage
+        run: pnpm pictwo:images:sync
+
       - name: Test app
         run: pnpm test
