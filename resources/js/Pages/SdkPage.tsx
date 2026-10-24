@@ -6,6 +6,7 @@ import {
   ImagesSection,
   InstallationSection,
   NearestSizingSection,
+  PhpFakerSection,
   ProvidersSection,
   SdkIntro,
 } from '../Components/SdkSections';
@@ -31,6 +32,7 @@ export default function SdkPage({ appName, baseUrl, config }: PageProps) {
         <ProvidersSection baseUrl={baseUrl} />
         <NearestSizingSection />
         <FakerSection baseUrl={baseUrl} />
+        <PhpFakerSection />
         <ImagesSection />
         <CdnDeliverySection baseUrl={baseUrl} />
       </SdkLayout>

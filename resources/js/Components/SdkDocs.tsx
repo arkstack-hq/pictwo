@@ -90,6 +90,7 @@ export function SdkToc() {
     ['Providers', '#providers'],
     ['Nearest sizing', '#nearest'],
     ['@pictwo/faker', '#faker'],
+    ['toneflix/faker-pictwo', '#php-faker'],
     ['@pictwo/images', '#images'],
     ['CDN delivery (?cdn)', '#cd'],
   ];
