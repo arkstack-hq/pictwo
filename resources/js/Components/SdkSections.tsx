@@ -277,6 +277,72 @@ export function FakerSection({ baseUrl }: { baseUrl: string }) {
   );
 }
 
+export function PhpFakerSection() {
+  return (
+    <section id="php-faker" className={sdkSectionClass}>
+      <h2 className={h2Class}>toneflix/faker-pictwo</h2>
+
+      <p className={pClass}>
+        A{' '}
+        <a
+          href="https://github.com/FakerPHP/Faker"
+          className="underline hover:text-[#e85d26]"
+        >
+          FakerPHP
+        </a>{' '}
+        <code className={inlineCodeClass}>image</code> provider backed by
+        Pictwo, for PHP projects generating fixtures outside of JavaScript.
+      </p>
+
+      <SdkCode code="composer require --dev toneflix/faker-pictwo" language="bash" />
+
+      <SdkCode
+        language="php"
+        code={[
+          '$faker = \\Faker\\Factory::create();',
+          '$faker->addProvider(new \\Toneflix\\FakerPicTwo\\FakerPicTwoProvider($faker));',
+          '',
+          '// a url like https://pictwo.toneflix.net/images/avatar?w=800&h=600&random=12345',
+          "$faker->imageUrl(width: 800, height: 600, category: 'avatar');",
+          '',
+          '// downloads a properly sized image and returns its local path',
+          '// e.g. /tmp/13b73edae8443990be1aa8f1a483bc27.jpg',
+          "$filePath = $faker->image(dir: '/tmp', width: 640, height: 480);",
+        ]}
+      />
+
+      <h3 className={h3Class}>Options</h3>
+
+      <SdkCode
+        language="php"
+        code={[
+          'FakerPicTwoProvider::imageUrl(',
+          '  int $width = 640,',
+          '  int $height = 480,',
+          '  ?string $category = null,   // avatar, african-fashion, album, cars, design,',
+          '                               // event, fabric, fashion, nature, people, poster,',
+          '                               // product, profile, robots, technology',
+          '  bool $randomize = true,     // adds a cache-busting ?random= param',
+          '  ?string $text = null,       // text overlay',
+          '  bool $grey = false,         // greyscale',
+          '  ?int $pixelate = null,      // pixelation level',
+          "  string $format = 'png'      // jpg, jpeg, png, webp",
+          ')',
+        ]}
+      />
+
+      <p className={pClass}>
+        <code className={inlineCodeClass}>FakerPicTwoProvider::image(...)</code>{' '}
+        takes the same options plus <code className={inlineCodeClass}>$dir</code>{' '}
+        (where to save, defaults to the system temp directory) and{' '}
+        <code className={inlineCodeClass}>$fullPath</code> (return the full path
+        instead of just the filename), and downloads the image to disk over
+        cURL or <code className={inlineCodeClass}>allow_url_fopen</code>.
+      </p>
+    </section>
+  );
+}
+
 export function ImagesSection() {
   return (
     <section id="images" className={sdkSectionClass}>
